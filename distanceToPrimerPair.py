@@ -23,7 +23,7 @@ productLengthList = list(df['Productlength'])
 distRatioList10K = [productLength/10000 for productLength in productLengthList]
 
 
-def rawDistToPrimerPair(distUnadjusted):
+def rawDistToPrimerPair(seqLengthUnadjusted):
     """
     Para: distUnadjusted - a float, representing the adjusted distance, which is the productLength the input 
                          distance is the closest to.
@@ -31,7 +31,8 @@ def rawDistToPrimerPair(distUnadjusted):
     """
     # 1. find the productlength that's closest to the input
         ## source: https://stackoverflow.com/questions/40271548/how-to-find-the-smallest-closest-number-in-a-list-in-python
-    distAdjusted = min(distRatioList10K, key=lambda x: (abs(x - distUnadjusted), x))
+    distAdjusted = min(distRatioList10K, key=lambda x: (abs(x - seqLengthUnadjusted), x))
+    # 2. 
     primerPairInfo = dfDict[int(round(distAdjusted*10000))]
     return primerPairInfo
 
