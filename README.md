@@ -2,6 +2,7 @@
 
 ### version 1. linearly spaced primer pairs
 To run this code, download/clone the current directory, in the current directory, enter in the terminal `python -i imageToPrimerPairLinear.py`, and then inside python, type `primerPairInfoList()`. This will let you know the primer pairs for each lane to generate a certain graph on gel.
+- Note that with the limited primer pairs we have so far, this is the preferred method because our primer pairs give linearly spaced distances.
 
 ### version 2. regression to reform picture on gel
 To run this code, download/clone the current directory, in the current directory, enter in the terminal `python -i imageToPrimerPairs.py`, and then inside python, type `primerPairInfoList()`. This will let you know the primer pairs for each lane to generate a certain graph on gel.
