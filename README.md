@@ -13,6 +13,14 @@ Note that we will recommend simpler pictures - better if the colours are simple.
 
 The image analysis part of thie pipeline is done with the generous help of [Bowen](https://github.com/JiangBowen0008). Some source files are from [Roya](https://github.com/ramininaieni) and [Max](https://github.com/maxschommer).
 
+### Python libraries used
+Panda
+PIL
+numpy
+math
+os
+- Note that you MIGHT need to install panda and PIL if you don't have them already on your computer. VSCode usually comes with PIL, panda can be installed with instructions [here](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html).
+
 ### Future optimisation
 1. Better resolution
 2. Enable more flexible gel dimension (currently 20\*40)
