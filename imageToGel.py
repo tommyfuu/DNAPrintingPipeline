@@ -5,7 +5,7 @@ import os
 
 
 ##test images
-image1 = '/Users/apple/Desktop/testimagePackman.jpeg'
+image1 = './test2.jpeg'
 
 def calculateAverage(im, x0, x1, y0, y1):
     sumBrightness = 0 #initiate sum

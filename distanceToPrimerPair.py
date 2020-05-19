@@ -31,9 +31,9 @@ def rawDistToPrimerPair(seqLengthUnadjusted):
     """
     # 1. find the productlength that's closest to the input
         ## source: https://stackoverflow.com/questions/40271548/how-to-find-the-smallest-closest-number-in-a-list-in-python
-    distAdjusted = min(distRatioList10K, key=lambda x: (abs(x - seqLengthUnadjusted), x))
-    # 2. 
-    primerPairInfo = dfDict[int(round(distAdjusted*10000))]
+    seqLengthAdjusted = min(distRatioList10K, key=lambda x: (abs(x - seqLengthUnadjusted), x))
+    # 2. find
+    primerPairInfo = dfDict[int(round(seqLengthAdjusted*10000))]
     return primerPairInfo
 
 
