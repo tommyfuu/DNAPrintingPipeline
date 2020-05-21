@@ -22,3 +22,7 @@ Panda, PIL, numpy, math, os
 1. Better resolution
 2. Enable more flexible gel dimension (currently 20\*40)
 3. More primer pair info to enable better regression
+
+
+Enjoy,
+TF
