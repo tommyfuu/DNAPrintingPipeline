@@ -13,7 +13,7 @@ import imageToGel, distanceToPrimerPairLinear
 
 def primerPairInfoList():
     # image 
-    image1 = './test2.jpeg'
+    image1 = './dna-vector-icon.jpg'
 
     # intialise things
     outputArray = [[False] * 20] * 39
@@ -23,7 +23,7 @@ def primerPairInfoList():
     boxWidth = imgwidth//20
     standard = imageToGel.standardBrightness(im)
 
-    primerPairInfoList = ["Primer Info: "]*20
+    primerPairInfoList = [""]*20
     # array to be printed: outputArray
     for y in range(0, 39):
         for x in range(0, 20):
@@ -32,12 +32,24 @@ def primerPairInfoList():
                 #  add information for primers in each lane
                 primerPairInfoList[x] += "\n"
                 primerPairInfoList[x] += distanceToPrimerPairLinear.rawDistToPrimerPair(y)
-
-    # print out primer info for each lane
+    f = open("protocol.txt", "a")
+    # removing contents of protocol.txt
+    f.truncate(0)
+    # storing protocol in protocol.txt
     for x in range(0, 20):
-        print("Primer info for lane #", end = '')
-        print(x, end = '')
-        print(" is:")
-        print(primerPairInfoList[x])
+        print("Primer info for lane #", end = '', file = f)
+        print(x, end = '', file = f)
+        print(" is:", file = f)
+        if len(primerPairInfoList[x]) == 0:
+            print("\n", file = f)
+            print(' Leave this lane empty.', file = f)
+            print("\n", file = f)    # return primerPairInfoList
 
-    return primerPairInfoList
+        else:
+            print("\n", file = f)
+            print(primerPairInfoList[x], file = f) 
+            print("\n", file = f)
+    f.close()
+primerPairInfoList()
+# printing image as confirmation of protocol
+imageToGel.main()
