@@ -11,9 +11,9 @@ import math
 import os
 import imageToGel, distanceToPrimerPairLinear
 
-def primerPairInfoList():
-    # image 
-    image1 = './dna-vector-icon.jpg'
+
+
+def primerPairInfoList(image1):
 
     # intialise things
     outputArray = [[False] * 20] * 39
@@ -50,6 +50,6 @@ def primerPairInfoList():
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
-primerPairInfoList()
+
 # printing image as confirmation of protocol
-imageToGel.main()
+# imageToGel.main(image1)

@@ -4,8 +4,7 @@ import math
 import os
 
 
-##test images
-image1 = './dna-vector-icon.jpg'
+
 
 def calculateAverage(im, x0, x1, y0, y1):
     sumBrightness = 0 #initiate sum
@@ -42,7 +41,7 @@ def processBlock(img, _x, _boxWidth, _y, _boxHeight, _standard):
     #compare with standard
     return blockBrightness > _standard
 
-def main():
+def printImage(image1):
     #read image
     
     im = PIL.Image.open(image1)
@@ -75,7 +74,7 @@ def main():
                 print("[ ]", end = '')
         print()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main(image1)
    
     
