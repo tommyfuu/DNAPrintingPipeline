@@ -1,5 +1,9 @@
 # DNAPrintingPipeline
 
+This is a simple software designed so that you can print an image on gel with DNA as your ink:)
+
+This computational pipeline is a user-friendly platform that gives you a PCR protocol to generate the DNA fragments you need for each lane in gel electrophoresis to produce the image on gel .
+
 ## May 31, 2020 Update - Simple GUI implemented
 In today's update, Tom implemented a simple GUI with Kivy that allows the users to pick a picture from their system directory, and the protocol.txt will become the protocol containing necessary and minimum amount of primer pairs used. In terminal, it will also print out the matched gel image - with minimum amount of primer pairs used as well.
 
