@@ -33,4 +33,4 @@ Note that we will recommend simpler pictures - better if the colours are simple.
 The image analysis part of thie pipeline is done with the generous help of [Bowen](https://github.com/JiangBowen0008). Some source files are from [Roya](https://github.com/ramininaieni) and [Max](https://github.com/maxschommer).
 
 Enjoy,
-TF
+TF and RA
