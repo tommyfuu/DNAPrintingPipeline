@@ -87,7 +87,7 @@ def primerPairInfoList(image1):
 
 
 Builder.load_string("""
-<MyWidget>:
+<DisplayBox>:
     id: my_widget
     FileChooserListView:
         id: filechooser
@@ -98,23 +98,23 @@ Builder.load_string("""
 """)
 
 
-class MyWidget(BoxLayout):
+class DisplayBox(BoxLayout):
 
     def selected(self,filename):
         try:
             self.ids.image.source = filename[0]
             imagePath = filename[0]
             print(imagePath)
-            primerPairInfoList(imagePath)
-            imageToGel.printImage(imagePath)
+            primerPairInfoList(imagePath) # fix protocol.txt
+            imageToGel.printImage(imagePath) # print gel image
         except:
             pass
 
 
-class MyApp(App):
+class PictureBoxUpdateProtocol(App):
     def build(self):
-        return MyWidget()
+        return DisplayBox()
 
 
 if __name__ == '__main__':
-    MyApp().run()
+    PictureBoxUpdateProtocol().run()
