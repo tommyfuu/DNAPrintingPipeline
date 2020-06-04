@@ -11,22 +11,24 @@ import math
 import os
 import imageToGel, distanceToPrimerPairLinear
 
-
+# global variables
+LENGTH = 36
+LANENUM = 20
 
 def primerPairInfoList(image1):
 
     # intialise things
-    outputArray = [[False] * 20] * 39
+    outputArray = [[False] * LANENUM] * (LENGTH-1)
     im = PIL.Image.open(image1)
     imgwidth, imgheight = im.size
-    boxHeight = imgheight//39
-    boxWidth = imgwidth//20
+    boxHeight = imgheight//(LENGTH-1)
+    boxWidth = imgwidth//LANENUM
     standard = imageToGel.standardBrightness(im)
 
-    primerPairInfoList = [""]*20
+    primerPairInfoList = [""]*LANENUM
     # array to be printed: outputArray
-    for y in range(0, 39):
-        for x in range(0, 20):
+    for y in range(0, (LENGTH-1)):
+        for x in range(0, LANENUM):
             outputArray[y][x] = imageToGel.processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
             if outputArray[y][x] == False:
                 #  add information for primers in each lane

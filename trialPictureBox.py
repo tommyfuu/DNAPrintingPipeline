@@ -16,26 +16,28 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.lang import Builder
 
-
+# global variables
 imagePath = ""
+LENGTH = 36
+LANENUM = 20
 
 def primerPairInfoList(image1):
     
     # intialise things
-    outputArray = [[False] * 20] * 39
+    outputArray = [[False] * LANENUM] * (LENGTH-1) 
     im = PIL.Image.open(image1)
     imgwidth, imgheight = im.size
-    boxHeight = imgheight//39
-    boxWidth = imgwidth//20
+    boxHeight = imgheight//(LENGTH-1)
+    boxWidth = imgwidth//LANENUM
     standard = imageToGel.standardBrightness(im)
     numOfFalses = 0
-    total = 20*39
+    total = LANENUM*(LENGTH-1)
 
-    primerPairInfoList = [""]*20
+    primerPairInfoList = [""]*LANENUM
 
     # update numOfFalses
-    for y in range(0, 39):
-        for x in range(0, 20):
+    for y in range(0, (LENGTH-1)):
+        for x in range(0, LANENUM):
             outputArray[y][x] = imageToGel.processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
             if outputArray[y][x] == False:
                 numOfFalses += 1
@@ -47,8 +49,8 @@ def primerPairInfoList(image1):
     # array to be printed: outputArray
     if numOfTrues >= numOfFalses:
         print("False is less")
-        for y in range(0, 39):
-            for x in range(0, 20):
+        for y in range(0, (LENGTH-1)):
+            for x in range(0, LANENUM):
                 outputArray[y][x] = imageToGel.processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
                 if outputArray[y][x] == False:
                     #  add information for primers in each lane
@@ -57,8 +59,8 @@ def primerPairInfoList(image1):
                     numOfFalses += 1
     else:
         print("True is less")
-        for y in range(0, 39):
-            for x in range(0, 20):
+        for y in range(0, (LENGTH-1)):
+            for x in range(0, LANENUM):
                 outputArray[y][x] = imageToGel.processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
                 if outputArray[y][x] == True:
                     #  add information for primers in each lane
@@ -70,7 +72,7 @@ def primerPairInfoList(image1):
     # removing contents of protocol.txt
     f.truncate(0)
     # storing protocol in protocol.txt
-    for x in range(0, 20):
+    for x in range(0, LANENUM):
         print("Primer info for lane #", end = '', file = f)
         print(x, end = '', file = f)
         print(" is:", file = f)
