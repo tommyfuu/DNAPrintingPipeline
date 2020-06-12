@@ -106,6 +106,10 @@ Builder.load_string("""
                 id: first_screen_label
                 text: "HMC DNA Printing Station"
                 pos_hint: {'top': 1.2}
+            Label:
+                id: first_screen_label
+                text: "Designed by: Tom Fu & Roya Amini-Naieni"
+                pos_hint: {'top': 1.2}
             Image:
                 pos_hint: {'top': 1}
                 source: "/Users/apple/Desktop/DNAPrintingPipeline/DNAPrinting.png"
@@ -184,32 +188,35 @@ Builder.load_string("""
             Button:
                 text: "Happy with it? Print!"
                 size_hint: (0.5, 1)
+                on_press: root.manager.current = '_success_screen_'  
             Button:
                 text: "Manual Adjustment"
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_'  
 
-<FifthScreen>:
+
+<SuccessScreen>:
     BoxLayout:
         orientation: "vertical"
         id: third_screen
         Label:
             id: main_title
-            text: "Manual Adjustment"
-            size_hint: (1, 0.1)
-        Image:
-            id: preview_image
-            source: root.img
+            text: "Protocol generated!"
+            size_hint: (1, 0.3)
+        Label:
+            id: instruction
+            text: "Check out protocol.txt for PCR instruction"
             size_hint: (1, 0.75)
         BoxLayout:
             orientation: "horizontal"
             padding: 10
             size_hint: (1, 0.15)
             Button:
-                text: "Done with adjustment? Print!"
+                text: "Close"
                 size_hint: (0.5, 1)
+                on_press: root.close()
             Button:
-                text: "Manual Adjustment"
+                text: "Do it again!"
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_'  
 """)
@@ -263,12 +270,27 @@ class FourthScreen(Screen):
         imageToGel.printImage("/Users/apple/Desktop/DNAPrintingPipeline/simulationForRescanning.png")
         print(self.img)
 
+class SuccessScreen(Screen):
+    img = ObjectProperty(None)
+
+    def __init__(self, **kwargs):
+        super(Screen, self).__init__(**kwargs)
+        
+    
+    def close(self):
+        sm.current = "_success_screen_"
+        success_screen = self.manager.get_screen("_success_screen_")
+        App.get_running_app.stop() # still something wrong here
+        
+
+
 # Create the screen manager
 sm = ScreenManager() # Problem?
 sm.add_widget(FirstScreen(name='_first_screen_'))
 sm.add_widget(SecondScreen(name='_second_screen_'))
 sm.add_widget(ThirdScreen(name='_third_screen_'))
 sm.add_widget(FourthScreen(name='_fourth_screen_'))
+sm.add_widget(SuccessScreen(name='_success_screen_'))
 
 class MyApp(App):
     def build(self):
