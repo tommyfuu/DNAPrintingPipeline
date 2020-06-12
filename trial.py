@@ -9,14 +9,17 @@ import PIL.ImageStat
 import PIL.Image
 import math
 import os
-import imageToGel, distanceToPrimerPairLinear
+import imageToGelText, distanceToPrimerPairLinear, imageToGel
 
+# GUI app
 import kivy
 from kivy.lang import Builder
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, StringProperty
 
+# manual adjustment
+import txtToPng
 
 ############### DNA Printing Functions ###############
 
@@ -34,7 +37,7 @@ def primerPairInfoList(image1):
     imgwidth, imgheight = im.size
     boxHeight = imgheight//(LENGTH-1)
     boxWidth = imgwidth//LANENUM
-    standard = imageToGel.standardBrightness(im)
+    standard = imageToGelText.standardBrightness(im)
     numOfFalses = 0
     total = LANENUM*(LENGTH-1)
 
@@ -43,7 +46,7 @@ def primerPairInfoList(image1):
     # update numOfFalses
     for y in range(0, (LENGTH-1)):
         for x in range(0, LANENUM):
-            outputArray[y][x] = imageToGel.processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
+            outputArray[y][x] = imageToGelText.processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
             if outputArray[y][x] == False:
                 numOfFalses += 1
     
@@ -55,7 +58,7 @@ def primerPairInfoList(image1):
     if numOfTrues >= numOfFalses:
         for y in range(0, (LENGTH-1)):
             for x in range(0, LANENUM):
-                outputArray[y][x] = imageToGel.processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
+                outputArray[y][x] = imageToGelText.processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
                 if outputArray[y][x] == False:
                     #  add information for primers in each lane
                     primerPairInfoList[x] += "\n"
@@ -64,7 +67,7 @@ def primerPairInfoList(image1):
     else:
         for y in range(0, (LENGTH-1)):
             for x in range(0, LANENUM):
-                outputArray[y][x] = imageToGel.processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
+                outputArray[y][x] = imageToGelText.processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
                 if outputArray[y][x] == True:
                     #  add information for primers in each lane
                     primerPairInfoList[x] += "\n"
@@ -89,6 +92,8 @@ def primerPairInfoList(image1):
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
+    txtToPng.main()
+    
 
 ############### Kivy GUI part ###############
 
@@ -125,6 +130,7 @@ Builder.load_string("""
             pos: 340, 480
         Button
             text: "select this image"
+            background_color: 0.5, 0.8, 0.6, 1
             size: 300, 50
             pos: 270, 20
             on_press: 
@@ -153,7 +159,7 @@ Builder.load_string("""
             Button:
                 text: "Okay"
                 size_hint: (0.5, 1)
-                on_press: root.manager.current = '_fourth_screen_'
+                on_press: root.callback_image4(INPUT_IMAGE_ADDRESS)
             Button:
                 text: "Cancel"
                 size_hint: (0.5, 1) 
@@ -178,12 +184,13 @@ Builder.load_string("""
             Button:
                 text: "Okay"
                 size_hint: (0.5, 1)
-                on_press: image_viewer.image_accepted_by_user(filechooser.selection)
             Button:
                 text: "Cancel"
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_'  
 """)
+
+INPUT_IMAGE_ADDRESS = ""
 
 class FirstScreen(Screen):
     pass
@@ -206,9 +213,13 @@ class ThirdScreen(Screen):
         sm.current = "_third_screen_"
         self.img = new_image_address
         self.ids.main_image.source = self.img
-        primerPairInfoList(new_image_address) # fix protocol.txt
-        imageToGel.printImage(new_image_address) # print gel image
+        INPUT_IMAGE_ADDRESS = new_image_address
+        print(INPUT_IMAGE_ADDRESS)
+        # primerPairInfoList(new_image_address) # fix protocol.txt
+        # imageToGelText.printImage(new_image_address) # print gel image
         print(self.img)
+        fourth_screen = self.manager.get_screen("_fourth_screen_")
+        fourth_screen.callback_image4(INPUT_IMAGE_ADDRESS)
 
 class FourthScreen(Screen):
     img = ObjectProperty(None)
@@ -217,10 +228,15 @@ class FourthScreen(Screen):
         super(Screen, self).__init__(**kwargs)
         
 
-    def callback_image4(self, new_image_address):
+    def callback_image4(self, input_image):
         sm.current = "_fourth_screen_"
-        self.img = new_image_address
-        self.ids.main_image.source = self.img
+        print("SOMETHING")
+        print(input_image)
+        # self.ids.main_image.source = self.img
+        primerPairInfoList(input_image) # fix protocol.txt
+        imageToGelText.printImage(input_image) # print gel image
+        self.img = "/Users/apple/Desktop/DNAPrintingPipeline/gelSimulation.png"
+        imageToGel.printImage("/Users/apple/Desktop/DNAPrintingPipeline/gelSimulation.png")
         print(self.img)
 
 # Create the screen manager
@@ -228,7 +244,7 @@ sm = ScreenManager() # Problem?
 sm.add_widget(FirstScreen(name='_first_screen_'))
 sm.add_widget(SecondScreen(name='_second_screen_'))
 sm.add_widget(ThirdScreen(name='_third_screen_'))
-sm.add_widget(ThirdScreen(name='_fourth_screen_'))
+sm.add_widget(FourthScreen(name='_fourth_screen_'))
 
 class MyApp(App):
     def build(self):
