@@ -194,6 +194,30 @@ Builder.load_string("""
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_'  
 
+<AdjustmentScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        id: third_screen
+        Label:
+            id: main_title
+            text: "Manual Adjustment"
+            size_hint: (1, 0.1)
+        Image:
+            id: preview_image
+            source: root.img
+            size_hint: (1, 0.75)
+        BoxLayout:
+            orientation: "horizontal"
+            padding: 10
+            size_hint: (1, 0.15)
+            Button:
+                text: "Happy with it? Print!"
+                size_hint: (0.5, 1)
+                on_press: root.manager.current = '_success_screen_'  
+            Button:
+                text: "Manual Adjustment"
+                size_hint: (0.5, 1) 
+                on_press: root.manager.current = '_first_screen_' 
 
 <SuccessScreen>:
     BoxLayout:
