@@ -12,10 +12,15 @@ Borrowed from
 https://stackoverflow.com/questions/29760402/converting-a-txt-file-to-an-image-in-python
 """
 
-def main():
+def simulation():
     image = text_image('gelSimulation.txt')
     image.show()
     image.save('gelSimulation.png')
+
+def rescanning():
+    image = text_image("simulationForRescanning.txt")
+    image.show()
+    image.save("simulationForRescanning.png")
 
 
 def text_image(text_path, font_path=None):

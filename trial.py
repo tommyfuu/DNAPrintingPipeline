@@ -18,8 +18,8 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, StringProperty
 
-# manual adjustment
 import txtToPng
+
 
 ############### DNA Printing Functions ###############
 
@@ -92,7 +92,7 @@ def primerPairInfoList(image1):
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
-    txtToPng.main()
+    txtToPng.simulation()
     
 
 ############### Kivy GUI part ###############
@@ -182,10 +182,34 @@ Builder.load_string("""
             padding: 10
             size_hint: (1, 0.15)
             Button:
-                text: "Okay"
+                text: "Happy with it? Print!"
                 size_hint: (0.5, 1)
             Button:
-                text: "Cancel"
+                text: "Manual Adjustment"
+                size_hint: (0.5, 1) 
+                on_press: root.manager.current = '_first_screen_'  
+
+<FifthScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        id: third_screen
+        Label:
+            id: main_title
+            text: "Manual Adjustment"
+            size_hint: (1, 0.1)
+        Image:
+            id: preview_image
+            source: root.img
+            size_hint: (1, 0.75)
+        BoxLayout:
+            orientation: "horizontal"
+            padding: 10
+            size_hint: (1, 0.15)
+            Button:
+                text: "Done with adjustment? Print!"
+                size_hint: (0.5, 1)
+            Button:
+                text: "Manual Adjustment"
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_'  
 """)
@@ -215,8 +239,6 @@ class ThirdScreen(Screen):
         self.ids.main_image.source = self.img
         INPUT_IMAGE_ADDRESS = new_image_address
         print(INPUT_IMAGE_ADDRESS)
-        # primerPairInfoList(new_image_address) # fix protocol.txt
-        # imageToGelText.printImage(new_image_address) # print gel image
         print(self.img)
         fourth_screen = self.manager.get_screen("_fourth_screen_")
         fourth_screen.callback_image4(INPUT_IMAGE_ADDRESS)
@@ -235,8 +257,10 @@ class FourthScreen(Screen):
         # self.ids.main_image.source = self.img
         primerPairInfoList(input_image) # fix protocol.txt
         imageToGelText.printImage(input_image) # print gel image
+        imageToGelText.imageForRescanning(input_image)
+        txtToPng.rescanning()
         self.img = "/Users/apple/Desktop/DNAPrintingPipeline/gelSimulation.png"
-        imageToGel.printImage("/Users/apple/Desktop/DNAPrintingPipeline/gelSimulation.png")
+        imageToGel.printImage("/Users/apple/Desktop/DNAPrintingPipeline/simulationForRescanning.png")
         print(self.img)
 
 # Create the screen manager
