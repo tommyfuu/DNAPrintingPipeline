@@ -1,0 +1,51 @@
+<FirstScreen>:
+    BoxLayout:
+        orientation: "horizontal"
+        Label:
+            id: first_screen_label
+            text: "Hi, I'm the home page"
+        BoxLayout:
+            orientation: "vertical"
+            Button:
+                text: "Okay!"
+                on_press: root.manager.current = '_second_screen_'
+            Button:
+                text: "Cancel!"
+                on_press: app.stop()
+
+<SecondScreen>:
+    id: file_chooser
+    BoxLayout:
+        id: file_chooser_box_layout
+        orientation: "horizontal"
+        Button
+            text: "Open"
+            on_press: 
+                root.callback_image_and_other_stuff(file_chooser_list_view.selection)
+        FileChooserListView:
+            id: file_chooser_list_view
+
+<ThirdScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        id: third_screen
+        Label:
+            id: main_title
+            text: "Upload"
+            size_hint: (1, 0.1)
+        Image:
+            id: main_image
+            source: root.img
+            size_hint: (1, 0.75)
+        BoxLayout:
+            orientation: "horizontal"
+            padding: 10
+            size_hint: (1, 0.15)
+            Button:
+                text: "Okay"
+                size_hint: (0.5, 1)
+                on_press: image_viewer.image_accepted_by_user(filechooser.selection)
+            Button:
+                text: "Cancel"
+                size_hint: (0.5, 1) 
+                on_press: root.manager.current = '_first_screen_'  

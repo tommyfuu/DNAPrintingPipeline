@@ -1,7 +1,7 @@
 """
 Author      : Tom Fu
 Date        : 2020 April 8
-Description : imageToPrimerPairs.py for DNA Printing Project
+Description : littleApp.py for DNA Printing Project
 """
 # imports for DNAPrinting
 import numpy as np
@@ -11,11 +11,20 @@ import math
 import os
 import imageToGel, distanceToPrimerPairLinear
 
-# imports for GUI
+# GUI
+import kivy
 from kivy.app import App
+from kivy.uix.widget import Widget
+from kivy.properties import ObjectProperty
+from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
-from kivy.lang import Builder
-from kivy.uix.button import Button
+from kivy.uix.popup import Popup
+
+import time # for pause
+
+
+############### DNA Printing Functions ###############
+
 
 # global variables
 imagePath = ""
@@ -86,36 +95,52 @@ def primerPairInfoList(image1):
             print("\n", file = f)
     f.close()
 
+############### GUI Part ###############
+imagePath = ""
 
-Builder.load_string("""
-<DisplayBox>:
-    id: my_widget
-    FileChooserListView:
-        id: filechooser
-        on_selection: my_widget.selected(filechooser.selection)
-    Image:
-        id: image
-        source: ""
-""")
+class Widgets(Widget):
+    def btn(self):
+        show_popup()
 
-
-class DisplayBox(BoxLayout):
-
+class P(BoxLayout):
     def selected(self,filename):
         try:
-            self.ids.image.source = filename[0]
+            # self.ids.image.source = filename[0]
             imagePath = filename[0]
-            print(imagePath)
-            primerPairInfoList(imagePath) # fix protocol.txt
-            imageToGel.printImage(imagePath) # print gel image
         except:
             pass
+        print(imagePath)
+        primerPairInfoList(imagePath) # fix protocol.txt
+        imageToGel.printImage(imagePath) # print gel image
+        P2.image_editing(P2)
 
+class P2(Widget):
+    def image_editing(self):
+        self.image.source = imagePath
+        show = P2()
+        print("SOmething")
+        popupWindow = Popup(title="Edit your gel!", content=show, size_hint=(None,None),size=(500,500))
 
-class PictureBoxUpdateProtocol(App):
+        popupWindow.open()
+    # def image(self):
+    #     print("SOmething")
+    #     self.image.source = imagePath
+    pass
+
+class MyApp(App):
     def build(self):
-        return DisplayBox()
+        return Widgets()
 
 
-if __name__ == '__main__':
-    PictureBoxUpdateProtocol().run()
+def show_popup():
+    show = P()
+
+    popupWindow = Popup(title="Image Selection System", content=show, size_hint=(None,None),size=(500,500))
+
+    popupWindow.open()
+
+
+
+
+if __name__ == "__main__":
+    MyApp().run()
