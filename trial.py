@@ -17,6 +17,7 @@ from kivy.lang import Builder
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, StringProperty
+from kivy.uix.textinput import TextInput
 
 import txtToPng
 
@@ -92,7 +93,7 @@ def primerPairInfoList(image1):
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
-    txtToPng.simulation()
+    return txtToPng.simulation()
     
 
 ############### Kivy GUI part ###############
@@ -109,7 +110,7 @@ Builder.load_string("""
             Label:
                 id: first_screen_label
                 text: "Designed by: Tom Fu & Roya Amini-Naieni"
-                pos_hint: {'top': 1.2}
+                pos_hint: {'top': 0.75}
             Image:
                 pos_hint: {'top': 1}
                 source: "/Users/apple/Desktop/DNAPrintingPipeline/DNAPrinting.png"
@@ -192,7 +193,7 @@ Builder.load_string("""
             Button:
                 text: "Manual Adjustment"
                 size_hint: (0.5, 1) 
-                on_press: root.manager.current = '_first_screen_'  
+                on_press: root.manager.current = '_adjustment_screen_'  
 
 <AdjustmentScreen>:
     BoxLayout:
@@ -202,9 +203,9 @@ Builder.load_string("""
             id: main_title
             text: "Manual Adjustment"
             size_hint: (1, 0.1)
-        Image:
-            id: preview_image
-            source: root.img
+        TextInput:
+            id: adjustment_text_box
+            text: root.gelSimulationText()
             size_hint: (1, 0.75)
         BoxLayout:
             orientation: "horizontal"
@@ -215,7 +216,7 @@ Builder.load_string("""
                 size_hint: (0.5, 1)
                 on_press: root.manager.current = '_success_screen_'  
             Button:
-                text: "Manual Adjustment"
+                text: "Start over"
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_' 
 
@@ -246,6 +247,7 @@ Builder.load_string("""
 """)
 
 INPUT_IMAGE_ADDRESS = ""
+
 
 class FirstScreen(Screen):
     pass
@@ -286,13 +288,28 @@ class FourthScreen(Screen):
         print("SOMETHING")
         print(input_image)
         # self.ids.main_image.source = self.img
-        primerPairInfoList(input_image) # fix protocol.txt
+        primerPairInfoList(input_image) # fix protocol.txt and generate the right gelSimulation.png
         imageToGelText.printImage(input_image) # print gel image
+        
         imageToGelText.imageForRescanning(input_image)
         txtToPng.rescanning()
         self.img = "/Users/apple/Desktop/DNAPrintingPipeline/gelSimulation.png"
         imageToGel.printImage("/Users/apple/Desktop/DNAPrintingPipeline/simulationForRescanning.png")
         print(self.img)
+
+class AdjustmentScreen(Screen):
+    img = ObjectProperty(None)
+    def __init__(self, **kwargs):
+        super(Screen, self).__init__(**kwargs)
+
+    def enter(self):
+        sm.current = "_adjustment_screen_"
+        adjustment_screen = self.manager.get_screen("_adjustment_screen_")
+    
+    def gelSimulationText(self):
+        with open("/Users/apple/Desktop/DNAPrintingPipeline/gelSimulation.txt") as f:
+            GEL_SIMULATION = f.read()
+        return GEL_SIMULATION
 
 class SuccessScreen(Screen):
     img = ObjectProperty(None)
@@ -314,11 +331,18 @@ sm.add_widget(FirstScreen(name='_first_screen_'))
 sm.add_widget(SecondScreen(name='_second_screen_'))
 sm.add_widget(ThirdScreen(name='_third_screen_'))
 sm.add_widget(FourthScreen(name='_fourth_screen_'))
+sm.add_widget(AdjustmentScreen(name='_adjustment_screen_'))
 sm.add_widget(SuccessScreen(name='_success_screen_'))
 
 class MyApp(App):
     def build(self):
         return sm
+    
+    def save(self, name, job):
+        fob = open('c:/test.txt','w')
+        fob.write(name + "\n")
+        fob.write(job)
+        fob.close()    
 
 if __name__ == '__main__':
     MyApp().run()

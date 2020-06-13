@@ -17,6 +17,7 @@ def simulation():
     image.show()
     image.save('gelSimulation.png')
 
+
 def rescanning():
     image = text_image("simulationForRescanning.txt")
     image.show()
