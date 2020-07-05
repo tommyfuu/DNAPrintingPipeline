@@ -23,6 +23,10 @@ def rescanning():
     image.show()
     image.save("simulationForRescanning.png")
 
+def adjustment():
+    image = text_image('adjusted.txt')
+    image.show()
+    image.save('adjusted.png')
 
 def text_image(text_path, font_path=None):
     """Convert text file to a grayscale image with black characters on a white background.

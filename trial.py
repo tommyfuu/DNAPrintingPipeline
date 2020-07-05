@@ -64,7 +64,6 @@ def primerPairInfoList(image1):
                     #  add information for primers in each lane
                     primerPairInfoList[x] += "\n"
                     primerPairInfoList[x] += distanceToPrimerPairLinear.rawDistToPrimerPair(y)
-                    numOfFalses += 1
     else:
         for y in range(0, (LENGTH-1)):
             for x in range(0, LANENUM):
@@ -73,7 +72,6 @@ def primerPairInfoList(image1):
                     #  add information for primers in each lane
                     primerPairInfoList[x] += "\n"
                     primerPairInfoList[x] += distanceToPrimerPairLinear.rawDistToPrimerPair(y)
-                    numOfFalses += 1
 
     f = open("protocol.txt", "a")
     # removing contents of protocol.txt
@@ -94,7 +92,93 @@ def primerPairInfoList(image1):
             print("\n", file = f)
     f.close()
     return txtToPng.simulation()
-    
+
+TEXTADDRESS = '/Users/apple/Desktop/DNAPrintingPipeline/protocolGraph.txt'
+def manualAdjustment(textAddress):
+    # intialise things
+    primerPairInfoList = [""]*LANENUM
+    numOfFalses = 0
+    total = LANENUM*(LENGTH-1)
+
+    # find the num of falses
+    with open(textAddress) as fp:
+        for line in fp:
+            lineCopy = line
+            for pixelIndex in range(0, LANENUM):
+                currentMiddleIndex = pixelIndex*3+1
+                if lineCopy[currentMiddleIndex] == ' ': 
+                    numOfFalses += 1
+    numOfTrues = total - numOfFalses
+    print(numOfFalses)
+    print(numOfTrues)
+
+    # array to be printed: outputArray
+    if numOfTrues >= numOfFalses:
+        with open(textAddress) as fp:
+            for line in fp:
+                yCount = 0
+                lineCopy = line
+                for pixelIndex in range(0, LANENUM): # pixelIndex is x
+                    currentMiddleIndex = pixelIndex*3+1
+                    if lineCopy[currentMiddleIndex] == ' ': 
+                        #  add information for primers in each lane
+                        primerPairInfoList[pixelIndex] += "\n"
+                        primerPairInfoList[pixelIndex] += distanceToPrimerPairLinear.rawDistToPrimerPair(yCount)
+                yCount += 1
+    else:
+        with open(textAddress) as fp:
+            for line in fp:
+                yCount = 0
+                lineCopy = line
+                for pixelIndex in range(0, LANENUM):
+                    currentMiddleIndex = pixelIndex*3+1
+                    if lineCopy[currentMiddleIndex] == 'X': 
+                        #  add information for primers in each lane
+                        primerPairInfoList[pixelIndex] += "\n"
+                        primerPairInfoList[pixelIndex] += distanceToPrimerPairLinear.rawDistToPrimerPair(yCount)
+                yCount += 1
+
+
+    f = open("protocol.txt", "a")
+    # removing contents of protocol.txt
+    f.truncate(0)
+    # storing protocol in protocol.txt
+    for x in range(0, LANENUM):
+        print("Primer info for lane #", end = '', file = f)
+        print(x, end = '', file = f)
+        print(" is:", file = f)
+        if len(primerPairInfoList[x]) == 0:
+            print("\n", file = f)
+            print(' Leave this lane empty.', file = f)
+            print("\n", file = f)    # return primerPairInfoList
+
+        else:
+            print("\n", file = f)
+            print(primerPairInfoList[x], file = f) 
+            print("\n", file = f)
+    f.close()
+    return txtToPng.simulation()
+
+# def manualAdjustment(textAddress):
+#     processedFile = open("adjusted.txt", "a")
+#     processedFile.truncate(0)
+#     with open(textAddress) as fp:
+#         for line in fp:
+#             lineCopy = line
+#             print(lineCopy)
+#             for pixelIndex in range(0, 20):
+#                 currentMiddleIndex = pixelIndex*3+1
+#                 print(currentMiddleIndex)
+#                 if lineCopy[currentMiddleIndex] == ' ': 
+#                     print("   ", end = '', file = processedFile)
+#                 elif lineCopy[currentMiddleIndex] == 'X': 
+#                     print("[X]", end = '', file = processedFile)
+#             print(lineCopy)
+#             print("\n", end = '', file = processedFile)
+
+#     txtToPng.adjustment()
+#     primerPairInfoList("adjusted.png")
+#     return 
 
 ############### Kivy GUI part ###############
 
@@ -173,7 +257,7 @@ Builder.load_string("""
 <FourthScreen>:
     BoxLayout:
         orientation: "vertical"
-        id: third_screen
+        id: fourth_screen
         Label:
             id: main_title
             text: "Previewing protocol"
@@ -196,6 +280,7 @@ Builder.load_string("""
                 on_press: root.manager.current = '_adjustment_screen_'  
 
 <AdjustmentScreen>:
+    adjustment_text: adjustment_text_box
     BoxLayout:
         orientation: "vertical"
         id: third_screen
@@ -203,27 +288,33 @@ Builder.load_string("""
             id: main_title
             text: "Manual Adjustment"
             size_hint: (1, 0.1)
+            pos_hint: {'top': 1.2}
         TextInput:
             id: adjustment_text_box
             text: root.gelSimulationText()
             size_hint: (1, 0.75)
+            pos: self.pos
         BoxLayout:
             orientation: "horizontal"
             padding: 10
             size_hint: (1, 0.15)
             Button:
-                text: "Happy with it? Print!"
+                text: "Save&submit adjustment!"
+                size_hint: (0.5, 1)
+                on_press: root.submit_text()
+            Button:
+                text: "Finished? Print!"
                 size_hint: (0.5, 1)
                 on_press: root.manager.current = '_success_screen_'  
             Button:
                 text: "Start over"
                 size_hint: (0.5, 1) 
-                on_press: root.manager.current = '_first_screen_' 
+                on_press: root.manager.current = '_first_screen_'
 
 <SuccessScreen>:
     BoxLayout:
         orientation: "vertical"
-        id: third_screen
+        id: success_screen
         Label:
             id: main_title
             text: "Protocol generated!"
@@ -310,6 +401,27 @@ class AdjustmentScreen(Screen):
         with open("/Users/apple/Desktop/DNAPrintingPipeline/gelSimulation.txt") as f:
             GEL_SIMULATION = f.read()
         return GEL_SIMULATION
+
+
+    def submit_text(self):
+        self.adjusted_text = self.adjustment_text.text
+        print("Adjusted text: {}".format(self.adjusted_text))
+        self.saveAndEdit()
+        self.adjusted_text = ''
+        print("Reset text: {}".format(self.adjusted_text))
+        self.load()
+        print("Loaded adjustment: {}".format(self.adjusted_text))
+
+    def saveAndEdit(self):
+        with open("protocolGraph.txt", "w") as fobj:
+            fobj.write(str(self.adjusted_text))
+        manualAdjustment(TEXTADDRESS)
+        return
+    
+    def load(self):
+        with open("protocolGraph.txt") as fobj:
+            for adjusmentText in fobj:
+                self.adjusmentText = adjusmentText.rstrip()
 
 class SuccessScreen(Screen):
     img = ObjectProperty(None)
