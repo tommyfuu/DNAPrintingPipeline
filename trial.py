@@ -36,7 +36,6 @@ def primerPairInfoList(image1):
         the correct PCR protocol and the gel simulation image
     input: image1, an image address
     output: protocol.txt, an text file containing PCR protocols
-            gelSimulation.png, an image file that shows the simulation
     """
     # intialise things
     outputArray = [[False] * LANENUM] * (LENGTH-1) 
@@ -101,6 +100,9 @@ def primerPairInfoList(image1):
 
 TEXTADDRESS = './protocolGraph.txt'
 def manualAdjustment(textAddress):
+    """
+    manualAdjustment - takes in a text address for the manually adjusted simulation and output the protocol
+    """
     # intialise things
     primerPairInfoList = [""]*LANENUM
     numOfFalses = 0
@@ -163,7 +165,7 @@ def manualAdjustment(textAddress):
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
-    return txtToPng.simulation()
+    return
 
 # def manualAdjustment(textAddress):
 #     processedFile = open("adjusted.txt", "a")
