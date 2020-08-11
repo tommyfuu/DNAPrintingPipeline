@@ -385,8 +385,8 @@ class FourthScreen(Screen):
         print("SOMETHING")
         print(input_image)
         # self.ids.main_image.source = self.img
-        primerPairInfoList(input_image) # fix protocol.txt and generate the right gelSimulation.png
         imageToGelText.printImage(input_image) # print gel image into the text file
+        primerPairInfoList(input_image) # fix protocol.txt and generate the right gelSimulation.png
         txtToPng.simulation() # generate simulation image
 
         imageToGelText.imageForRescanning(input_image)
