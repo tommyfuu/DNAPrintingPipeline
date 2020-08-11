@@ -27,11 +27,17 @@ import txtToPng
 
 # global variables
 imagePath = ""
-LENGTH = 36
+LENGTH = 39
 LANENUM = 20
 
 def primerPairInfoList(image1):
-    
+    """
+    PrimerPairInfoList - takes in an image address and output 
+        the correct PCR protocol and the gel simulation image
+    input: image1, an image address
+    output: protocol.txt, an text file containing PCR protocols
+            gelSimulation.png, an image file that shows the simulation
+    """
     # intialise things
     outputArray = [[False] * LANENUM] * (LENGTH-1) 
     im = PIL.Image.open(image1)
@@ -91,7 +97,7 @@ def primerPairInfoList(image1):
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
-    return txtToPng.simulation()
+    return
 
 TEXTADDRESS = './protocolGraph.txt'
 def manualAdjustment(textAddress):
@@ -380,8 +386,9 @@ class FourthScreen(Screen):
         print(input_image)
         # self.ids.main_image.source = self.img
         primerPairInfoList(input_image) # fix protocol.txt and generate the right gelSimulation.png
-        imageToGelText.printImage(input_image) # print gel image
-        
+        imageToGelText.printImage(input_image) # print gel image into the text file
+        txtToPng.simulation() # generate simulation image
+
         imageToGelText.imageForRescanning(input_image)
         txtToPng.rescanning()
         self.img = "./gelSimulation.png"
