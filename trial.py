@@ -400,6 +400,9 @@ class AdjustmentScreen(Screen):
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
 
+    def on_enter(self):
+        self.ids.adjustment_text_box.text = self.gelSimulationText()
+
     def enter(self):
         sm.current = "_adjustment_screen_"
         adjustment_screen = self.manager.get_screen("_adjustment_screen_")
