@@ -93,7 +93,7 @@ def primerPairInfoList(image1):
     f.close()
     return txtToPng.simulation()
 
-TEXTADDRESS = '/Users/apple/Desktop/DNAPrintingPipeline/protocolGraph.txt'
+TEXTADDRESS = './protocolGraph.txt'
 def manualAdjustment(textAddress):
     # intialise things
     primerPairInfoList = [""]*LANENUM
@@ -197,7 +197,7 @@ Builder.load_string("""
                 pos_hint: {'top': 0.75}
             Image:
                 pos_hint: {'top': 1}
-                source: "/Users/apple/Desktop/DNAPrintingPipeline/DNAPrinting.png"
+                source: "./DNAPrinting.png"
 
         BoxLayout:
             orientation: "vertical"
@@ -384,8 +384,8 @@ class FourthScreen(Screen):
         
         imageToGelText.imageForRescanning(input_image)
         txtToPng.rescanning()
-        self.img = "/Users/apple/Desktop/DNAPrintingPipeline/gelSimulation.png"
-        imageToGel.printImage("/Users/apple/Desktop/DNAPrintingPipeline/simulationForRescanning.png")
+        self.img = "./gelSimulation.png"
+        imageToGel.printImage("./simulationForRescanning.png")
         print(self.img)
 
 class AdjustmentScreen(Screen):
@@ -398,7 +398,7 @@ class AdjustmentScreen(Screen):
         adjustment_screen = self.manager.get_screen("_adjustment_screen_")
     
     def gelSimulationText(self):
-        with open("/Users/apple/Desktop/DNAPrintingPipeline/gelSimulation.txt") as f:
+        with open("./gelSimulation.txt") as f:
             GEL_SIMULATION = f.read()
         return GEL_SIMULATION
 
