@@ -36,6 +36,8 @@ def primerPairInfoList(image1):
         the correct PCR protocol and the gel simulation image
     input: image1, an image address
     output: protocol.txt, an text file containing PCR protocols
+            gelSimulation.png, an image file that simulates what
+            the gel should look like
     """
     # intialise things
     outputArray = [[False] * LANENUM] * (LENGTH-1) 
@@ -96,12 +98,17 @@ def primerPairInfoList(image1):
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
-    return
+    return txtToPng.simulation()
 
 TEXTADDRESS = './protocolGraph.txt'
 def manualAdjustment(textAddress):
     """
-    manualAdjustment - takes in a text address for the manually adjusted simulation and output the protocol
+    manualAdjustment - takes in a text address for the manually adjusted simulation 
+        and output the protocol and produce the right simulation image
+    input: textAddress, adjusted text file after manual adjustment
+    output: protocol.txt, an text file containing PCR protocols
+            gelSimulation.png, an image file that simulates what
+            the gel should look like
     """
     # intialise things
     primerPairInfoList = [""]*LANENUM
@@ -165,28 +172,7 @@ def manualAdjustment(textAddress):
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
-    return
-
-# def manualAdjustment(textAddress):
-#     processedFile = open("adjusted.txt", "a")
-#     processedFile.truncate(0)
-#     with open(textAddress) as fp:
-#         for line in fp:
-#             lineCopy = line
-#             print(lineCopy)
-#             for pixelIndex in range(0, 20):
-#                 currentMiddleIndex = pixelIndex*3+1
-#                 print(currentMiddleIndex)
-#                 if lineCopy[currentMiddleIndex] == ' ': 
-#                     print("   ", end = '', file = processedFile)
-#                 elif lineCopy[currentMiddleIndex] == 'X': 
-#                     print("[X]", end = '', file = processedFile)
-#             print(lineCopy)
-#             print("\n", end = '', file = processedFile)
-
-#     txtToPng.adjustment()
-#     primerPairInfoList("adjusted.png")
-#     return 
+    return txtToPng.simulation()
 
 ############### Kivy GUI part ###############
 
@@ -347,18 +333,24 @@ Builder.load_string("""
 
 INPUT_IMAGE_ADDRESS = ""
 
-
+# the starting screen
 class FirstScreen(Screen):
     pass
 
+# the image selector screen
 class SecondScreen(Screen):
     def callback_image_and_other_stuff(self, new_image_address):
+        """
+        (button click function)
+        enter the image confirmation screen and update the image address the user inputted
+        """
         if new_image_address:
             third_screen = self.manager.get_screen("_third_screen_")
             # do other stuff here also, then pass new_image_address along
             new_image_address = new_image_address[0].replace("\\", "/")
             third_screen.callback_image(new_image_address)
 
+# image confirmation page (currently fastly skipped for some reason) TODO: fix this
 class ThirdScreen(Screen):
     img = ObjectProperty(None)
 
@@ -375,6 +367,7 @@ class ThirdScreen(Screen):
         fourth_screen = self.manager.get_screen("_fourth_screen_")
         fourth_screen.callback_image4(INPUT_IMAGE_ADDRESS)
 
+# protocol previewing/simulation page
 class FourthScreen(Screen):
     img = ObjectProperty(None)
 
@@ -389,7 +382,6 @@ class FourthScreen(Screen):
         # self.ids.main_image.source = self.img
         imageToGelText.printImage(input_image) # print gel image into the text file
         primerPairInfoList(input_image) # fix protocol.txt and generate the right gelSimulation.png
-        txtToPng.simulation() # generate simulation image
 
         imageToGelText.imageForRescanning(input_image)
         txtToPng.rescanning()
@@ -397,6 +389,7 @@ class FourthScreen(Screen):
         imageToGel.printImage("./simulationForRescanning.png")
         print(self.img)
 
+# manual adjustment page
 class AdjustmentScreen(Screen):
     img = ObjectProperty(None)
     def __init__(self, **kwargs):
@@ -435,6 +428,7 @@ class AdjustmentScreen(Screen):
             for adjusmentText in fobj:
                 self.adjusmentText = adjusmentText.rstrip()
 
+# success screen
 class SuccessScreen(Screen):
     img = ObjectProperty(None)
 
