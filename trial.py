@@ -9,7 +9,7 @@ import PIL.ImageStat
 import PIL.Image
 import math
 import os
-import imageToGelText, distanceToPrimerPairLinear, imageToGel
+import imageToGel, imageToGelText, distanceToPrimerPairLinear, txtToPng
 
 # GUI app
 import kivy
@@ -19,8 +19,6 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.textinput import TextInput
 
-import txtToPng
-
 
 ############### DNA Printing Functions ###############
 
@@ -29,8 +27,8 @@ import txtToPng
 imagePath = ""
 LENGTH = 39
 LANENUM = 20
-GELSIMPREVIEW = "./gelSimulation.png"
-PRIMERSAVEFILE = "./protocol.txt"
+GELSIMPREVIEW = "./byProducts/gelSimulation.png"
+PRIMERSAVEFILE = "./output/protocol.txt"
 
 def generateProtocol(image1):
     """
@@ -168,10 +166,10 @@ def manualAdjustment(textAddress):
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
-    print("WTF?")
+
     # generate the new simulation picture to prep for previewing
     txtToPng.simulation()
-    print("WTF again?")
+
     
 ############### Kivy GUI part ###############
 
@@ -189,11 +187,15 @@ Builder.load_string("""
                 pos_hint: {'top': 1.2}
             Label:
                 id: first_screen_label
-                text: "Designed by: Tom Fu & Roya Amini-Naieni"
+                text: "Designed by:"
+                pos_hint: {'top': 0.8}
+            Label:
+                id: first_screen_label
+                text: "Tom Fu & Roya Amini-Naieni & Kariessa Schultz"
                 pos_hint: {'top': 0.75}
             Image:
                 pos_hint: {'top': 1}
-                source: "./DNAPrinting.png"
+                source: "./icon/DNAPrinting.png"
 
         BoxLayout:
             orientation: "vertical"
@@ -260,7 +262,7 @@ Builder.load_string("""
             size_hint: (1, 0.1)
         Image:
             id: preview_image
-            source: "./gelSimulation.png"
+            source: "./byProducts/gelSimulation.png"
             size_hint: (1, 0.75)
         BoxLayout:
             orientation: "horizontal"
@@ -317,7 +319,7 @@ Builder.load_string("""
             size_hint: (1, 0.3)
         Label:
             id: instruction
-            text: "Check out protocol.txt for PCR instruction"
+            text: "Check out protocol.txt in the output directory for PCR instruction"
             size_hint: (1, 0.75)
         BoxLayout:
             orientation: "horizontal"
@@ -389,7 +391,7 @@ class FourthScreen(Screen):
         imageToGelText.imageForRescanning(input_image)
         txtToPng.rescanning()
 
-        imageToGel.printImage("./simulationForRescanning.png")
+        imageToGel.printImage("./byProducts/simulationForRescanning.png")
 
 # manual adjustment page
 class AdjustmentScreen(Screen):
@@ -405,29 +407,20 @@ class AdjustmentScreen(Screen):
         adjustment_screen = self.manager.get_screen("_adjustment_screen_")
     
     def gelSimulationText(self):
-        with open("./gelSimulation.txt") as f:
+        with open("./byProducts/gelSimulation.txt") as f:
             return f.read()
 
     def submit_text(self):
         self.adjusted_text = self.adjustment_text.text
         self.saveAndEdit()
         self.adjusted_text = ''
-        self.load()
+
         sm.current = "_fourth_screen_"
 
-        # we try to go back to the previous screen, but the image that shows up is not correct
-        # likely the appropriate files are not being updated # TODO: fix
-        
-
     def saveAndEdit(self):
-        with open("./gelSimulation.txt", "w") as fobj:
+        with open("./byProducts/gelSimulation.txt", "w") as fobj:
             fobj.write(str(self.adjusted_text))
-        manualAdjustment("./gelSimulation.txt")
-    
-    def load(self):
-        with open("protocolGraph.txt") as fobj:
-            for adjusmentText in fobj:
-                self.adjusmentText = adjusmentText.rstrip()
+        manualAdjustment("./byProducts/gelSimulation.txt")
 
 # success screen
 class SuccessScreen(Screen):

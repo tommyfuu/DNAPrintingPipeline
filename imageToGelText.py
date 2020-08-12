@@ -75,7 +75,7 @@ def printImage(image1):
     print(numOfFalses)
     print(numOfTrues)
 
-    f = open("gelSimulation.txt", "a")
+    f = open("./byProducts/gelSimulation.txt", "a")
     # removing contents of protocol.txt
     f.truncate(0)
     #for loop that produces the output array: each block should have its right true or false
@@ -136,7 +136,7 @@ def imageForRescanning(image1):
     print(numOfFalses)
     print(numOfTrues)
 
-    f = open("simulationForRescanning.txt", "a")
+    f = open("./byProducts/simulationForRescanning.txt", "a")
     # removing contents of simulationForRescanning.txt
     f.truncate(0)
     #for loop that produces the output array: each block should have its right true or false
