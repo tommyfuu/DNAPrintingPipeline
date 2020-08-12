@@ -373,16 +373,23 @@ class FourthScreen(Screen):
 
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
-        
+
+    # doesn't seem to be helpful; possibly this gets called before gelSimulation is updated
+    # if there's an intermediate screen this may be the better option to avoid flickering
+    # but this is also still a bad way to write this... hmmm    
+    def on_pre_enter(self):
+         print("Screen pre-entered!")
+         self.ids.preview_image.source = "./gelSimulation.png"
+         self.ids.preview_image.reload()
 
     def callback_image4(self, input_image):
+        imageToGelText.printImage(input_image) # print gel image into the text file
+        primerPairInfoList(input_image) # fix protocol.txt and generate the right gelSimulation.png
+        print("Correct gelSimulation.png created")
         sm.current = "_fourth_screen_"
         print("SOMETHING")
         print(input_image)
-        # self.ids.main_image.source = self.img
-        imageToGelText.printImage(input_image) # print gel image into the text file
-        primerPairInfoList(input_image) # fix protocol.txt and generate the right gelSimulation.png
-
+        
         imageToGelText.imageForRescanning(input_image)
         txtToPng.rescanning()
         self.img = "./gelSimulation.png"
