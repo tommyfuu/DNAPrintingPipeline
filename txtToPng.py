@@ -13,20 +13,14 @@ https://stackoverflow.com/questions/29760402/converting-a-txt-file-to-an-image-i
 """
 
 def simulation():
-    image = text_image('gelSimulation.txt')
+    image = text_image('./gelSimulation.txt')
     image.show()
-    image.save('gelSimulation.png')
-
+    image.save('./gelSimulation.png')
 
 def rescanning():
-    image = text_image("simulationForRescanning.txt")
+    image = text_image("./simulationForRescanning.txt")
     image.show()
-    image.save("simulationForRescanning.png")
-
-def adjustment():
-    image = text_image('adjusted.txt')
-    image.show()
-    image.save('adjusted.png')
+    image.save("./simulationForRescanning.png")
 
 def text_image(text_path, font_path=None):
     """Convert text file to a grayscale image with black characters on a white background.

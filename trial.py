@@ -1,5 +1,5 @@
 """
-Author      : Tom Fu
+Author      : Tom Fu and Kariessa Schultz
 Date        : 2020 April 8
 Description : trial.py for DNA Printing Project
 """
@@ -25,11 +25,11 @@ import txtToPng
 ############### DNA Printing Functions ###############
 
 
-# global variables
+# DNA Printing global variables
 imagePath = ""
 LENGTH = 39
 LANENUM = 20
-TEXTADDRESS = './protocolGraph.txt'
+GELSIMPREVIEW = "./gelSimulation.png"
 PRIMERSAVEFILE = "./protocol.txt"
 
 def generateProtocol(image1):
@@ -168,15 +168,15 @@ def manualAdjustment(textAddress):
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
-
+    print("WTF?")
     # generate the new simulation picture to prep for previewing
     txtToPng.simulation()
+    print("WTF again?")
     
 ############### Kivy GUI part ###############
 
-# global variables
-# INPUT_IMAGE_ADDRESS = ""
-GELSIMPREVIEW = "./gelSimulation.png"
+# Kivy front end global variables
+# INPUT_IMAGE_ADDRESS = """
 
 Builder.load_string("""
 <FirstScreen>:
@@ -376,6 +376,11 @@ class FourthScreen(Screen):
         self.ids.preview_image.source = GELSIMPREVIEW
         self.ids.preview_image.reload()
 
+    def on_enter(self):
+        # reload image so the right image is displayed
+        self.ids.preview_image.source = GELSIMPREVIEW
+        self.ids.preview_image.reload()
+
     def callback_image4(self, input_image):
         imageToGelText.printImage(input_image)  # print gel image into the text file
         generateProtocol(input_image)  # generate the right protocol.txt and gelSimulation.png
@@ -408,7 +413,6 @@ class AdjustmentScreen(Screen):
         self.saveAndEdit()
         self.adjusted_text = ''
         self.load()
-        txtToPng.simulation()
         sm.current = "_fourth_screen_"
 
         # we try to go back to the previous screen, but the image that shows up is not correct
@@ -416,9 +420,9 @@ class AdjustmentScreen(Screen):
         
 
     def saveAndEdit(self):
-        with open("protocolGraph.txt", "w") as fobj:
+        with open("./gelSimulation.txt", "w") as fobj:
             fobj.write(str(self.adjusted_text))
-        manualAdjustment(TEXTADDRESS)
+        manualAdjustment("./gelSimulation.txt")
     
     def load(self):
         with open("protocolGraph.txt") as fobj:
