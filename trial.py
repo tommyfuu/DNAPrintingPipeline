@@ -295,7 +295,7 @@ Builder.load_string("""
             padding: 10
             size_hint: (1, 0.15)
             Button:
-                text: "Save&submit adjustment!"
+                text: "Save adjustment-preview again"
                 size_hint: (0.5, 1)
                 on_press: root.submit_text()
             Button:
@@ -408,6 +408,12 @@ class AdjustmentScreen(Screen):
         self.saveAndEdit()
         self.adjusted_text = ''
         self.load()
+        txtToPng.simulation()
+        sm.current = "_fourth_screen_"
+
+        # we try to go back to the previous screen, but the image that shows up is not correct
+        # likely the appropriate files are not being updated # TODO: fix
+        
 
     def saveAndEdit(self):
         with open("protocolGraph.txt", "w") as fobj:
