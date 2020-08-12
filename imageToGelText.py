@@ -137,7 +137,7 @@ def imageForRescanning(image1):
     print(numOfTrues)
 
     f = open("simulationForRescanning.txt", "a")
-    # removing contents of protocol.txt
+    # removing contents of simulationForRescanning.txt
     f.truncate(0)
     #for loop that produces the output array: each block should have its right true or false
     #for i,j:
