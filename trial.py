@@ -260,7 +260,7 @@ Builder.load_string("""
             size_hint: (1, 0.1)
         Image:
             id: preview_image
-            source: GELSIMPREVIEW
+            source: "./gelSimulation.png"
             size_hint: (1, 0.75)
         BoxLayout:
             orientation: "horizontal"
@@ -400,7 +400,7 @@ class AdjustmentScreen(Screen):
         adjustment_screen = self.manager.get_screen("_adjustment_screen_")
     
     def gelSimulationText(self):
-        with open(GELSIMPREVIEW) as f:
+        with open("./gelSimulation.txt") as f:
             return f.read()
 
     def submit_text(self):
