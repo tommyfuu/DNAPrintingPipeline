@@ -29,15 +29,14 @@ import txtToPng
 imagePath = ""
 LENGTH = 39
 LANENUM = 20
+TEXTADDRESS = './protocolGraph.txt'
+PRIMERSAVEFILE = "./protocol.txt"
 
-def primerPairInfoList(image1):
+def generateProtocol(image1):
     """
-    PrimerPairInfoList - takes in an image address and output 
+    PrimerPairInfoList - takes in an image address and updates 
         the correct PCR protocol and the gel simulation image
     input: image1, an image address
-    output: protocol.txt, an text file containing PCR protocols
-            gelSimulation.png, an image file that simulates what
-            the gel should look like
     """
     # intialise things
     outputArray = [[False] * LANENUM] * (LENGTH-1) 
@@ -59,10 +58,9 @@ def primerPairInfoList(image1):
                 numOfFalses += 1
     
     numOfTrues = total - numOfFalses
-    print(numOfFalses)
-    print(numOfTrues)
 
-    # array to be printed: outputArray
+    # decide whether the true blocks or false blocks will be printed with DNA,
+    # and create a text file that will be later turned into an image
     if numOfTrues >= numOfFalses:
         for y in range(0, (LENGTH-1)):
             for x in range(0, LANENUM):
@@ -80,10 +78,10 @@ def primerPairInfoList(image1):
                     primerPairInfoList[x] += "\n"
                     primerPairInfoList[x] += distanceToPrimerPairLinear.rawDistToPrimerPair(y)
 
-    f = open("protocol.txt", "a")
-    # removing contents of protocol.txt
+    f = open(PRIMERSAVEFILE, "a")
+    # removing contents of the instructions file
     f.truncate(0)
-    # storing protocol in protocol.txt
+    # storing protocol of the instructions file
     for x in range(0, LANENUM):
         print("Primer info for lane #", end = '', file = f)
         print(x, end = '', file = f)
@@ -98,24 +96,23 @@ def primerPairInfoList(image1):
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
-    return txtToPng.simulation()
 
-TEXTADDRESS = './protocolGraph.txt'
+    # generate the new simulation picture to prep for previewing
+    txtToPng.simulation() 
+
 def manualAdjustment(textAddress):
     """
     manualAdjustment - takes in a text address for the manually adjusted simulation 
-        and output the protocol and produce the right simulation image
+        and updates the protocol and produce the right simulation image
     input: textAddress, adjusted text file after manual adjustment
-    output: protocol.txt, an text file containing PCR protocols
-            gelSimulation.png, an image file that simulates what
-            the gel should look like
     """
-    # intialise things
+
     primerPairInfoList = [""]*LANENUM
-    numOfFalses = 0
+    numOfFalses = 0  
     total = LANENUM*(LENGTH-1)
 
     # find the num of falses
+    # falses and trues represent different pixel colors
     with open(textAddress) as fp:
         for line in fp:
             lineCopy = line
@@ -124,10 +121,9 @@ def manualAdjustment(textAddress):
                 if lineCopy[currentMiddleIndex] == ' ': 
                     numOfFalses += 1
     numOfTrues = total - numOfFalses
-    print(numOfFalses)
-    print(numOfTrues)
 
-    # array to be printed: outputArray
+    # decide whether the true blocks or false blocks will be printed with DNA,
+    # and create a text file that will be later turned into an image
     if numOfTrues >= numOfFalses:
         with open(textAddress) as fp:
             for line in fp:
@@ -154,10 +150,10 @@ def manualAdjustment(textAddress):
                 yCount += 1
 
 
-    f = open("protocol.txt", "a")
-    # removing contents of protocol.txt
+    f = open(PRIMERSAVEFILE, "a")
+    # removing contents of instructions file
     f.truncate(0)
-    # storing protocol in protocol.txt
+    # storing protocol in instructions file
     for x in range(0, LANENUM):
         print("Primer info for lane #", end = '', file = f)
         print(x, end = '', file = f)
@@ -172,9 +168,15 @@ def manualAdjustment(textAddress):
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
     f.close()
-    return txtToPng.simulation()
 
+    # generate the new simulation picture to prep for previewing
+    txtToPng.simulation()
+    
 ############### Kivy GUI part ###############
+
+# global variables
+# INPUT_IMAGE_ADDRESS = ""
+GELSIMPREVIEW = "./gelSimulation.png"
 
 Builder.load_string("""
 <FirstScreen>:
@@ -258,7 +260,7 @@ Builder.load_string("""
             size_hint: (1, 0.1)
         Image:
             id: preview_image
-            source: root.img
+            source: GELSIMPREVIEW
             size_hint: (1, 0.75)
         BoxLayout:
             orientation: "horizontal"
@@ -331,8 +333,6 @@ Builder.load_string("""
                 on_press: root.manager.current = '_first_screen_'  
 """)
 
-INPUT_IMAGE_ADDRESS = ""
-
 # the starting screen
 class FirstScreen(Screen):
     pass
@@ -361,48 +361,38 @@ class ThirdScreen(Screen):
         sm.current = "_third_screen_"
         self.img = new_image_address
         self.ids.main_image.source = self.img
-        INPUT_IMAGE_ADDRESS = new_image_address
-        print(INPUT_IMAGE_ADDRESS)
         print(self.img)
         fourth_screen = self.manager.get_screen("_fourth_screen_")
-        fourth_screen.callback_image4(INPUT_IMAGE_ADDRESS)
+        fourth_screen.callback_image4(new_image_address)
 
 # protocol previewing/simulation page
 class FourthScreen(Screen):
-    img = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
 
-    # doesn't seem to be helpful; possibly this gets called before gelSimulation is updated
-    # if there's an intermediate screen this may be the better option to avoid flickering
-    # but this is also still a bad way to write this... hmmm    
     def on_pre_enter(self):
-         print("Screen pre-entered!")
-         self.ids.preview_image.source = "./gelSimulation.png"
-         self.ids.preview_image.reload()
+        # reload image so the right image is displayed
+        self.ids.preview_image.source = GELSIMPREVIEW
+        self.ids.preview_image.reload()
 
     def callback_image4(self, input_image):
-        imageToGelText.printImage(input_image) # print gel image into the text file
-        primerPairInfoList(input_image) # fix protocol.txt and generate the right gelSimulation.png
-        print("Correct gelSimulation.png created")
+        imageToGelText.printImage(input_image)  # print gel image into the text file
+        generateProtocol(input_image)  # generate the right protocol.txt and gelSimulation.png
         sm.current = "_fourth_screen_"
-        print("SOMETHING")
-        print(input_image)
-        
+
         imageToGelText.imageForRescanning(input_image)
         txtToPng.rescanning()
-        self.img = "./gelSimulation.png"
+
         imageToGel.printImage("./simulationForRescanning.png")
-        print(self.img)
 
 # manual adjustment page
 class AdjustmentScreen(Screen):
-    img = ObjectProperty(None)
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
 
     def on_enter(self):
+        # reloads text so the correct text is displayed for the current file
         self.ids.adjustment_text_box.text = self.gelSimulationText()
 
     def enter(self):
@@ -410,25 +400,19 @@ class AdjustmentScreen(Screen):
         adjustment_screen = self.manager.get_screen("_adjustment_screen_")
     
     def gelSimulationText(self):
-        with open("./gelSimulation.txt") as f:
-            GEL_SIMULATION = f.read()
-        return GEL_SIMULATION
-
+        with open(GELSIMPREVIEW) as f:
+            return f.read()
 
     def submit_text(self):
         self.adjusted_text = self.adjustment_text.text
-        print("Adjusted text: {}".format(self.adjusted_text))
         self.saveAndEdit()
         self.adjusted_text = ''
-        print("Reset text: {}".format(self.adjusted_text))
         self.load()
-        print("Loaded adjustment: {}".format(self.adjusted_text))
 
     def saveAndEdit(self):
         with open("protocolGraph.txt", "w") as fobj:
             fobj.write(str(self.adjusted_text))
         manualAdjustment(TEXTADDRESS)
-        return
     
     def load(self):
         with open("protocolGraph.txt") as fobj:
@@ -441,17 +425,15 @@ class SuccessScreen(Screen):
 
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
-        
-    
+          
     def close(self):
         sm.current = "_success_screen_"
         success_screen = self.manager.get_screen("_success_screen_")
-        App.get_running_app.stop() # still something wrong here
+        App.get_running_app.stop()
         
 
-
 # Create the screen manager
-sm = ScreenManager() # Problem?
+sm = ScreenManager()
 sm.add_widget(FirstScreen(name='_first_screen_'))
 sm.add_widget(SecondScreen(name='_second_screen_'))
 sm.add_widget(ThirdScreen(name='_third_screen_'))
