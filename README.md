@@ -20,12 +20,12 @@ Install kivy with `python -m pip install kivy`. Adjust `python` into `python3` a
 To run this GUI, clone this repository and enter the directory.
 
 0. In the terminal, enter `python DNAPrintingStation.py`. A Kivy viewing panel should pop up. Note that our pipeline works for Mac and Linux with tested stable behaviours, but Kivy has failed before on Windows in our testing, as seen below. You might want to use Macbooks or a Linux computer if your Windows computer does not work.
-   [fronPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/frontPage.png)
+   ![fronPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/frontPage.png)
 1. In the pop up viewing panel, you should see the first screen that tells you that this is indeed our DNA printing Project software. Click on `Select your picture to print!` to enter the software.
 2. You will now see an image selector tab. Select the image you want to print on gel from your system. We provide a set of pictures in the `./testImages` directory. Note that we will recommend simpler pictures in terms of colour - the image would be printed the best if there are only two colours.
 3. Then you should see an image confirmation page asking you to confirm the image (currently skipped).
 4. You will now see a preview of what your picture would look like on gel, with `[ ]`s representing blank space not printed with DNAs and `[X]`s representing the space printed with DNAs, such as the one below.
-   [previewExample](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/previewExample.png)
+   ![previewExample](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/previewExample.png)
 5. If you would like, click on manual adjustment to manually adjust the output gel image if you are not satisfied with the automatically generated image. Note that you should do this by deleting the blank spaces inside the brackets with `X`s, not directly typing in `X`s or deleting blank spaces. Then you should be able to preview again by clicking on the `Save adjustment-preview again` button.
 6. If you are happy with the preview, click on `Happy with it? Print!` to get your protocol. Your output PCR protocol should be in the `./output` directory as a text file called `protocol.txt` which explains the primer pairs needed for each lane.
 7. If you are still not happy with the preview, feel free to go back to manual adjustment again to change anything!
