@@ -328,7 +328,7 @@ Builder.load_string("""
             Button:
                 text: "Close"
                 size_hint: (0.5, 1)
-                on_press: root.close()
+                on_press: app.stop()
             Button:
                 text: "Do it again!"
                 size_hint: (0.5, 1) 
