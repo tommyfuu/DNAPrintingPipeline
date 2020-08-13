@@ -181,13 +181,16 @@ Builder.load_string("""
             Label:
                 id: first_screen_label
                 text: "HMC DNA Printing Station"
+                font_name: './GuiFiles/Lato-Black.ttf'
                 pos_hint: {'top': 1.2}
             Label:
                 id: first_screen_label
                 text: "Designed by:"
+                font_name: './GuiFiles/Lato-Regular.ttf'
                 pos_hint: {'top': 0.8}
             Label:
                 id: first_screen_label
+                font_name: './GuiFiles/Lato-Regular.ttf'
                 text: "Tom Fu & Roya Amini-Naieni & Kariessa Schultz"
                 pos_hint: {'top': 0.75}
             Image:
@@ -198,10 +201,12 @@ Builder.load_string("""
             orientation: "vertical"
             Button:
                 text: "Select your picture to print!"
+                font_name: './GuiFiles/Lato-Bold.ttf'
                 background_color: 0.5, 0.8, 0.6, 1
                 on_press: root.manager.current = '_second_screen_'
             Button:
                 text: "Cancel!"
+                font_name: './GuiFiles/Lato-Bold.ttf'
                 on_press: app.stop()
 
 <SecondScreen>:
@@ -209,11 +214,18 @@ Builder.load_string("""
     Widget:
         id: file_chooser_box_layout
         Label:
+            id: title
+            text: "Image Selector"
+            font_name: './GuiFiles/Lato-Black.ttf'
+            pos: 340, 500
+        Label:
             id: notice
             text: "Note that you should only select image files (e.g.: png/jpeg/etc.)"
-            pos: 340, 480
+            font_name: './GuiFiles/Lato-Italic.ttf'
+            pos: 340, 470
         Button
             text: "select this image"
+            font_name: './GuiFiles/Lato-Bold.ttf'
             background_color: 0.5, 0.8, 0.6, 1
             size: 300, 50
             pos: 270, 20
@@ -221,6 +233,7 @@ Builder.load_string("""
                 root.callback_and_format_image(file_chooser_list_view.selection)
         FileChooserListView:
             id: file_chooser_list_view
+            font_name: './GuiFiles/Lato-Bold.ttf'
             size: 450, 430
             pos: 170, 70
 
@@ -231,6 +244,7 @@ Builder.load_string("""
         Label:
             id: main_title
             text: "Are you sure you want this image?"
+            font_name: './GuiFiles/Lato-Black.ttf'
             size_hint: (1, 0.1)
         Image:
             id: main_image
@@ -242,10 +256,12 @@ Builder.load_string("""
             size_hint: (1, 0.15)
             Button:
                 text: "Okay"
+                font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1)
                 on_press: root.select_image(root.img)
             Button:
                 text: "Cancel"
+                font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_' 
 
@@ -255,6 +271,7 @@ Builder.load_string("""
         id: loading_screen
         Label:
             id: loading_lable
+            font_name: './GuiFiles/Lato-Black.ttf'
             text: "Loading..."
             size_hint: (1,0.1)
 
@@ -265,6 +282,7 @@ Builder.load_string("""
         Label:
             id: main_title
             text: "Previewing protocol"
+            font_name: './GuiFiles/Lato-Black.ttf'
             size_hint: (1, 0.1)
         Image:
             id: preview_image
@@ -276,10 +294,12 @@ Builder.load_string("""
             size_hint: (1, 0.15)
             Button:
                 text: "Happy with it? Print!"
+                font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1)
                 on_press: root.manager.current = '_success_screen_'  
             Button:
                 text: "Manual Adjustment"
+                font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_adjustment_screen_'  
 
@@ -291,6 +311,7 @@ Builder.load_string("""
         Label:
             id: main_title
             text: "Manual Adjustment"
+            font_name: './GuiFiles/Lato-Black.ttf'
             size_hint: (1, 0.1)
             pos_hint: {'top': 1.2}
         TextInput:
@@ -305,14 +326,17 @@ Builder.load_string("""
             size_hint: (1, 0.15)
             Button:
                 text: "Save and Preview"
+                font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1)
                 on_press: root.submit_text()
             Button:
                 text: "Finished? Print!"
+                font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1)
                 on_press: root.manager.current = '_success_screen_'  
             Button:
                 text: "Start over"
+                font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_'
 
@@ -323,10 +347,12 @@ Builder.load_string("""
         Label:
             id: main_title
             text: "Protocol generated!"
+            font_name: './GuiFiles/Lato-Black.ttf'
             size_hint: (1, 0.3)
         Label:
             id: instruction
             text: "Check out protocol.txt in the output directory for PCR instruction"
+            font_name: './GuiFiles/Lato-Italic.ttf'
             size_hint: (1, 0.75)
         BoxLayout:
             orientation: "horizontal"
@@ -334,10 +360,12 @@ Builder.load_string("""
             size_hint: (1, 0.15)
             Button:
                 text: "Close"
+                font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1)
                 on_press: app.stop()
             Button:
                 text: "Do it again!"
+                font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_'  
 """)
