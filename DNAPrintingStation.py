@@ -1,13 +1,13 @@
 """
 Author      : Tom Fu and Kariessa Schultz
-Date        : 2020 April 8
+Date        : 2020 Aug 13
 Description : trial.py for DNA Printing Project
 """
 # imports for DNAPrinting
 import numpy as np
 import PIL.ImageStat
 import PIL.Image
-import math
+import math..
 import os
 import imageToGel, imageToGelText, distanceToPrimerPairLinear, txtToPng
 
@@ -363,12 +363,18 @@ class ThirdScreen(Screen):
         super(Screen, self).__init__(**kwargs)
 
     def callback_image(self, new_image_address):
-        # set img to the user's chosen image address
+        """
+        set img to the user's chosen image address
+        """
         self.img = new_image_address
         self.ids.main_image.source = self.img
 
     def select_image(self, new_image_address):
-        # moves the GUI to the fourth screen and processes the chosen image
+        """
+        (button click function)
+        confirm that this is the image we want, moves the GUI to the fourth 
+        screen and processes the chosen image
+        """
         sm.current = "_third_screen_"
         fourth_screen = self.manager.get_screen("_fourth_screen_")
         fourth_screen.callback_and_process_image(new_image_address)
@@ -380,16 +386,18 @@ class FourthScreen(Screen):
         super(Screen, self).__init__(**kwargs)
 
     def on_pre_enter(self):
-        # reload image so the right image is displayed
-        self.ids.preview_image.source = GELSIMPREVIEW
-        self.ids.preview_image.reload()
-
-    def on_enter(self):
-        # reload image so the right image is displayed
+        """
+        reload image so the right image is displayed
+        """
         self.ids.preview_image.source = GELSIMPREVIEW
         self.ids.preview_image.reload()
 
     def callback_and_process_image(self, input_image):
+        """
+        (button click function)
+        called for manual adjustment, prep for manual adjustment by forming a text file that users
+        can adjust
+        """
         imageToGelText.printImage(input_image)  # print gel image into the text file
         generateProtocol(input_image)  # generate the right protocol.txt and gelSimulation.png
         sm.current = "_fourth_screen_"
@@ -405,7 +413,9 @@ class AdjustmentScreen(Screen):
         super(Screen, self).__init__(**kwargs)
 
     def on_enter(self):
-        # reloads text so the correct text is displayed for the current file
+        """
+        reloads text so the correct text is displayed for the current file
+        """
         self.ids.adjustment_text_box.text = self.gel_simulation_text()
 
     def enter(self):
@@ -417,6 +427,9 @@ class AdjustmentScreen(Screen):
             return f.read()
 
     def submit_text(self):
+        """
+        save the manually adjusted texts into the gelSimulation.txt file
+        """
         self.adjusted_text = self.adjustment_text.text
         self.save_and_edit()
         self.adjusted_text = ''
@@ -445,15 +458,9 @@ sm.add_widget(FourthScreen(name='_fourth_screen_'))
 sm.add_widget(AdjustmentScreen(name='_adjustment_screen_'))
 sm.add_widget(SuccessScreen(name='_success_screen_'))
 
-class MyApp(App):
+class DNAPrintingApp(App):
     def build(self):
-        return sm
-    
-    def save(self, name, job):
-        fob = open('c:/test.txt','w')
-        fob.write(name + "\n")
-        fob.write(job)
-        fob.close()    
+        return sm 
 
 if __name__ == '__main__':
-    MyApp().run()
+    DNAPrintingApp().run()
