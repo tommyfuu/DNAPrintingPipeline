@@ -252,6 +252,15 @@ Builder.load_string("""
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_' 
 
+<LoadingScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        id: loading_screen
+        Label:
+            id: loading_lable
+            text: "Loading..."
+            size_hint: (1,0.1)
+
 <FourthScreen>:
     BoxLayout:
         orientation: "vertical"
@@ -368,10 +377,10 @@ class ThirdScreen(Screen):
         self.ids.main_image.source = self.img
 
     def select_image(self, new_image_address):
-        # moves the GUI to the fourth screen and processes the chosen image
-        sm.current = "_third_screen_"
-        fourth_screen = self.manager.get_screen("_fourth_screen_")
-        fourth_screen.callback_and_process_image(new_image_address)
+        # moves the GUI to the loading screen
+        loading_screen = self.manager.get_screen("_loading_screen_")
+        loading_screen.img = new_image_address
+        sm.current = "_loading_screen_"
 
 # protocol previewing/simulation page
 class FourthScreen(Screen):
@@ -392,12 +401,25 @@ class FourthScreen(Screen):
     def callback_and_process_image(self, input_image):
         imageToGelText.printImage(input_image)  # print gel image into the text file
         generateProtocol(input_image)  # generate the right protocol.txt and gelSimulation.png
-        sm.current = "_fourth_screen_"
 
         imageToGelText.imageForRescanning(input_image)
         txtToPng.rescanning()
 
         imageToGel.printImage("./byProducts/simulationForRescanning.png")
+        sm.current = "_fourth_screen_"
+
+# transition screen between selecting image and previewing the result
+class LoadingScreen(Screen):
+    img = ObjectProperty(None)
+
+    def __init__(self, **kwargs):
+        super(Screen, self).__init__(**kwargs)
+
+    def on_enter(self):
+        # calls the computationally intensive functions to process the image
+        # callback_and_process_image transitions to the fourht screen when done
+        fourth_screen = self.manager.get_screen("_fourth_screen_")
+        fourth_screen.callback_and_process_image(self.img)  
 
 # manual adjustment page
 class AdjustmentScreen(Screen):
@@ -442,6 +464,7 @@ sm.add_widget(FirstScreen(name='_first_screen_'))
 sm.add_widget(SecondScreen(name='_second_screen_'))
 sm.add_widget(ThirdScreen(name='_third_screen_'))
 sm.add_widget(FourthScreen(name='_fourth_screen_'))
+sm.add_widget(LoadingScreen(name = '_loading_screen_'))
 sm.add_widget(AdjustmentScreen(name='_adjustment_screen_'))
 sm.add_widget(SuccessScreen(name='_success_screen_'))
 
