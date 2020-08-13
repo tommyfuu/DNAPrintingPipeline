@@ -195,7 +195,7 @@ Builder.load_string("""
                 pos_hint: {'top': 0.75}
             Image:
                 pos_hint: {'top': 1}
-                source: "./icon/DNAPrinting.png"
+                source: "./GuiFiles/DNAPrinting.png"
 
         BoxLayout:
             orientation: "vertical"
@@ -290,6 +290,7 @@ Builder.load_string("""
         TextInput:
             id: adjustment_text_box
             text: root.gelSimulationText()
+            font_name: './GuiFiles/cour.ttf'
             size_hint: (1, 0.75)
             pos: self.pos
         BoxLayout:
@@ -297,7 +298,7 @@ Builder.load_string("""
             padding: 10
             size_hint: (1, 0.15)
             Button:
-                text: "Save adjustment-preview again"
+                text: "Save and Preview"
                 size_hint: (0.5, 1)
                 on_press: root.submit_text()
             Button:
