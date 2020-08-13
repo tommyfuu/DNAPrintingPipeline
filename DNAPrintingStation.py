@@ -18,6 +18,9 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.textinput import TextInput
+from kivy.core.window import Window
+
+import queue
 
 
 ############### DNA Printing Functions ###############
@@ -176,8 +179,10 @@ def manualAdjustment(textAddress):
 Builder.load_string("""
 <FirstScreen>:
     BoxLayout:
+        id: layout
         orientation: "horizontal"
         FloatLayout:
+            id: layout
             Label:
                 id: first_screen_label
                 text: "HMC DNA Printing Station"
@@ -195,12 +200,15 @@ Builder.load_string("""
                 source: "./GuiFiles/DNAPrinting.png"
 
         BoxLayout:
+            id: layout
             orientation: "vertical"
             Button:
+                id: hover_button
                 text: "Select your picture to print!"
                 background_color: 0.5, 0.8, 0.6, 1
                 on_press: root.manager.current = '_second_screen_'
             Button:
+                id: hover_button
                 text: "Cancel!"
                 on_press: app.stop()
 
@@ -213,6 +221,7 @@ Builder.load_string("""
             text: "Note that you should only select image files (e.g.: png/jpeg/etc.)"
             pos: 340, 480
         Button
+            id: hover_button
             text: "select this image"
             background_color: 0.5, 0.8, 0.6, 1
             size: 300, 50
@@ -241,10 +250,12 @@ Builder.load_string("""
             padding: 10
             size_hint: (1, 0.15)
             Button:
+                id: hover_button
                 text: "Okay"
                 size_hint: (0.5, 1)
                 on_press: root.select_image(root.img)
             Button:
+                id: hover_button
                 text: "Cancel"
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_' 
@@ -275,10 +286,12 @@ Builder.load_string("""
             padding: 10
             size_hint: (1, 0.15)
             Button:
+                id: hover_button
                 text: "Happy with it? Print!"
                 size_hint: (0.5, 1)
                 on_press: root.manager.current = '_success_screen_'  
             Button:
+                id: hover_button
                 text: "Manual Adjustment"
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_adjustment_screen_'  
@@ -304,14 +317,17 @@ Builder.load_string("""
             padding: 10
             size_hint: (1, 0.15)
             Button:
+                id: hover_button
                 text: "Save and Preview"
                 size_hint: (0.5, 1)
                 on_press: root.submit_text()
             Button:
+                id: hover_button
                 text: "Finished? Print!"
                 size_hint: (0.5, 1)
                 on_press: root.manager.current = '_success_screen_'  
             Button:
+                id: hover_button
                 text: "Start over"
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_'
@@ -333,10 +349,12 @@ Builder.load_string("""
             padding: 10
             size_hint: (1, 0.15)
             Button:
+                id: hover_button
                 text: "Close"
                 size_hint: (0.5, 1)
                 on_press: app.stop()
             Button:
+                id: hover_button
                 text: "Do it again!"
                 size_hint: (0.5, 1) 
                 on_press: root.manager.current = '_first_screen_'  
@@ -363,7 +381,6 @@ class SecondScreen(Screen):
             sm.current = "_third_screen_"
             third_screen.callback_image(new_image_address)
 
-# image confirmation page (currently fastly skipped for some reason) TODO: fix this
 class ThirdScreen(Screen):
     img = ObjectProperty(None)
 
@@ -485,7 +502,32 @@ sm.add_widget(SuccessScreen(name='_success_screen_'))
 
 class DNAPrintingApp(App):
     def build(self):
+        Window.bind(mouse_pos = self.on_mouse_pos)
         return sm 
+
+    def on_mouse_pos(self, window, pos):
+        # event for when the mouse moves
+        # gets the buttons on the page and then checks for collisions
+        buttons = self.get_buttons(self.root.current_screen)
+        for butt in buttons:
+            if butt.collide_point(*pos):
+                butt.border = (0,0,0,0)
+            else:
+                butt.border = (2,2,2,2)                
+
+    def get_buttons(self, widget):
+        # returns a list of all buttons inside a particular widget
+        # uses breadth first search
+        traversalQueue = queue.Queue(0)
+        traversalQueue.put(widget)
+        outputList = []
+        while not traversalQueue.empty():
+            first = traversalQueue.get()
+            for child in first.children:
+                traversalQueue.put(child)
+            if isinstance(first, kivy.uix.button.Button):
+                outputList.append(first)
+        return outputList
 
 if __name__ == '__main__':
     DNAPrintingApp().run()
