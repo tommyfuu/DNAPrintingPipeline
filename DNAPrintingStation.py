@@ -349,7 +349,7 @@ class SecondScreen(Screen):
         """
         if new_image_address:
             third_screen = self.manager.get_screen("_third_screen_")
-            # do other stuff here also, then pass new_image_address along
+            # clean the address then new_image_address along
             new_image_address = new_image_address[0].replace("\\", "/")
             sm.current = "_third_screen_"
             third_screen.callback_image(new_image_address)
@@ -362,16 +362,12 @@ class ThirdScreen(Screen):
         super(Screen, self).__init__(**kwargs)
 
     def callback_image(self, new_image_address):
+        # set img to the user's chosen image address
         self.img = new_image_address
         self.ids.main_image.source = self.img
-        # sm.current = "_third_screen_"
-        # self.img = new_image_address
-        # self.ids.main_image.source = self.img
-        # print(self.img)
-        # fourth_screen = self.manager.get_screen("_fourth_screen_")
-        # fourth_screen.callback_image4(new_image_address)
 
     def selectImage(self, new_image_address):
+        # moves the GUI to the fourth screen and processes the chosen image
         sm.current = "_third_screen_"
         fourth_screen = self.manager.get_screen("_fourth_screen_")
         fourth_screen.callback_image4(new_image_address)
