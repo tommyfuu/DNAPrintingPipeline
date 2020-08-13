@@ -246,7 +246,7 @@ Builder.load_string("""
             Button:
                 text: "Okay"
                 size_hint: (0.5, 1)
-                on_press: root.callback_image4(INPUT_IMAGE_ADDRESS)
+                on_press: root.selectImage(root.img)
             Button:
                 text: "Cancel"
                 size_hint: (0.5, 1) 
@@ -351,6 +351,7 @@ class SecondScreen(Screen):
             third_screen = self.manager.get_screen("_third_screen_")
             # do other stuff here also, then pass new_image_address along
             new_image_address = new_image_address[0].replace("\\", "/")
+            sm.current = "_third_screen_"
             third_screen.callback_image(new_image_address)
 
 # image confirmation page (currently fastly skipped for some reason) TODO: fix this
@@ -361,10 +362,17 @@ class ThirdScreen(Screen):
         super(Screen, self).__init__(**kwargs)
 
     def callback_image(self, new_image_address):
-        sm.current = "_third_screen_"
         self.img = new_image_address
         self.ids.main_image.source = self.img
-        print(self.img)
+        # sm.current = "_third_screen_"
+        # self.img = new_image_address
+        # self.ids.main_image.source = self.img
+        # print(self.img)
+        # fourth_screen = self.manager.get_screen("_fourth_screen_")
+        # fourth_screen.callback_image4(new_image_address)
+
+    def selectImage(self, new_image_address):
+        sm.current = "_third_screen_"
         fourth_screen = self.manager.get_screen("_fourth_screen_")
         fourth_screen.callback_image4(new_image_address)
 
