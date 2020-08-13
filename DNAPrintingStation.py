@@ -428,11 +428,6 @@ class SuccessScreen(Screen):
 
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
-          
-    def close(self):
-        sm.current = "_success_screen_"
-        success_screen = self.manager.get_screen("_success_screen_")
-        App.get_running_app.stop()
         
 
 # Create the screen manager
