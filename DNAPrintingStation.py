@@ -221,7 +221,7 @@ Builder.load_string("""
             size: 300, 50
             pos: 270, 20
             on_press: 
-                root.callback_image_and_other_stuff(file_chooser_list_view.selection)
+                root.callback_and_format_image(file_chooser_list_view.selection)
         FileChooserListView:
             id: file_chooser_list_view
             size: 450, 430
@@ -246,7 +246,7 @@ Builder.load_string("""
             Button:
                 text: "Okay"
                 size_hint: (0.5, 1)
-                on_press: root.selectImage(root.img)
+                on_press: root.select_image(root.img)
             Button:
                 text: "Cancel"
                 size_hint: (0.5, 1) 
@@ -289,7 +289,7 @@ Builder.load_string("""
             pos_hint: {'top': 1.2}
         TextInput:
             id: adjustment_text_box
-            text: root.gelSimulationText()
+            text: root.gel_simulation_text()
             font_name: './GuiFiles/cour.ttf'
             size_hint: (1, 0.75)
             pos: self.pos
@@ -342,10 +342,11 @@ class FirstScreen(Screen):
 
 # the image selector screen
 class SecondScreen(Screen):
-    def callback_image_and_other_stuff(self, new_image_address):
+    def callback_and_format_image(self, new_image_address):
         """
         (button click function)
-        enter the image confirmation screen and update the image address the user inputted
+        enter the image confirmation screen and process the image address the user inputted, so 
+        it is in the right format
         """
         if new_image_address:
             third_screen = self.manager.get_screen("_third_screen_")
@@ -366,11 +367,11 @@ class ThirdScreen(Screen):
         self.img = new_image_address
         self.ids.main_image.source = self.img
 
-    def selectImage(self, new_image_address):
+    def select_image(self, new_image_address):
         # moves the GUI to the fourth screen and processes the chosen image
         sm.current = "_third_screen_"
         fourth_screen = self.manager.get_screen("_fourth_screen_")
-        fourth_screen.callback_image4(new_image_address)
+        fourth_screen.callback_and_process_image(new_image_address)
 
 # protocol previewing/simulation page
 class FourthScreen(Screen):
@@ -388,7 +389,7 @@ class FourthScreen(Screen):
         self.ids.preview_image.source = GELSIMPREVIEW
         self.ids.preview_image.reload()
 
-    def callback_image4(self, input_image):
+    def callback_and_process_image(self, input_image):
         imageToGelText.printImage(input_image)  # print gel image into the text file
         generateProtocol(input_image)  # generate the right protocol.txt and gelSimulation.png
         sm.current = "_fourth_screen_"
@@ -405,24 +406,24 @@ class AdjustmentScreen(Screen):
 
     def on_enter(self):
         # reloads text so the correct text is displayed for the current file
-        self.ids.adjustment_text_box.text = self.gelSimulationText()
+        self.ids.adjustment_text_box.text = self.gel_simulation_text()
 
     def enter(self):
         sm.current = "_adjustment_screen_"
         adjustment_screen = self.manager.get_screen("_adjustment_screen_")
     
-    def gelSimulationText(self):
+    def gel_simulation_text(self):
         with open("./byProducts/gelSimulation.txt") as f:
             return f.read()
 
     def submit_text(self):
         self.adjusted_text = self.adjustment_text.text
-        self.saveAndEdit()
+        self.save_and_edit()
         self.adjusted_text = ''
 
         sm.current = "_fourth_screen_"
 
-    def saveAndEdit(self):
+    def save_and_edit(self):
         with open("./byProducts/gelSimulation.txt", "w") as fobj:
             fobj.write(str(self.adjusted_text))
         manualAdjustment("./byProducts/gelSimulation.txt")
