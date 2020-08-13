@@ -173,9 +173,6 @@ def manualAdjustment(textAddress):
     
 ############### Kivy GUI part ###############
 
-# Kivy front end global variables
-# INPUT_IMAGE_ADDRESS = """
-
 Builder.load_string("""
 <FirstScreen>:
     BoxLayout:
@@ -336,6 +333,8 @@ Builder.load_string("""
                 on_press: root.manager.current = '_first_screen_'  
 """)
 
+############### ScreenManager - front/back end interaction ###############
+
 # the starting screen
 class FirstScreen(Screen):
     pass
@@ -457,6 +456,9 @@ sm.add_widget(ThirdScreen(name='_third_screen_'))
 sm.add_widget(FourthScreen(name='_fourth_screen_'))
 sm.add_widget(AdjustmentScreen(name='_adjustment_screen_'))
 sm.add_widget(SuccessScreen(name='_success_screen_'))
+
+
+############### App call ###############
 
 class DNAPrintingApp(App):
     def build(self):
