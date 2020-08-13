@@ -7,7 +7,7 @@ Description : trial.py for DNA Printing Project
 import numpy as np
 import PIL.ImageStat
 import PIL.Image
-import math..
+import math
 import os
 import imageToGel, imageToGelText, distanceToPrimerPairLinear, txtToPng
 
