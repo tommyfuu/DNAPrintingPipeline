@@ -8,7 +8,7 @@ import numpy as np
 import PIL.ImageStat
 import PIL.Image
 import math
-import os
+import os, sys
 import imageToGel, imageToGelText, distanceToPrimerPairLinear, txtToPng
 
 # GUI app
@@ -202,19 +202,60 @@ Builder.load_string("""
                 source: "./GuiFiles/DNAPrinting.png"
 
             Button:
-                text: "Select your picture to print!"
+                text: "Settings!"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 background_color: 0.5, 0.8, 0.6, 1
-                pos_hint: {'top': 0.23, 'x': 0.2}
-                size_hint: 0.26, 0.135
+                pos_hint: {'top': 0.23, 'x': 0.125}
+                size_hint: 0.23, 0.1
+                on_press: root.manager.current = '_option_screen_'
+            Button:
+                text: "Select an image!"
+                font_name: './GuiFiles/Lato-Bold.ttf'
+                background_color: 0.5, 0.8, 0.6, 1
+                pos_hint: {'top': 0.23, 'x': 0.395}
+                size_hint: 0.23, 0.1
                 on_press: root.manager.current = '_second_screen_'
             Button:
                 text: "Cancel!"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 background_color: 0.5, 0.8, 0.6, 1
-                pos_hint: {'top': 0.23, 'x': 0.55}
-                size_hint: 0.26, 0.135
+                pos_hint: {'top': 0.23, 'x': 0.665}
+                size_hint: 0.23, 0.1
                 on_press: app.stop()
+<OptionScreen>:
+    id: lane_option
+    FloatLayout:
+        Label:
+            text: "Enter the number of lanes on your gel box:"
+            font_size: 20
+            font_name: './GuiFiles/Lato-Black.ttf'
+            pos_hint: {'top': 1.25}
+        Label:
+            text: "Note: Your lane number should be an integer. Since the system has 40 pairs of primers prepared, your number of vertical pixels will be 40. Please choose the gel box accordingly."
+            text_size: self.size
+            size_hint: 0.7, 1
+            font_name: './GuiFiles/Lato-Italic.ttf'
+            pos_hint: {'top': 1.45, 'x': 0.13}
+        TextInput:
+            id: lane_number_input
+            text: root.laneNum
+            font_name: './GuiFiles/cour.ttf'
+            size_hint: (0.1, 0.08)
+            pos_hint: {'top': 0.65, 'x': 0.435}
+        Label:
+            id: grumpy_label
+            text: ""
+            markup: True
+            font_name: './GuiFiles/Lato-Italic.ttf'
+            pos_hint: {'top': 0.85}
+        Button:
+            id: return_button
+            text: "Submit and Continue"
+            font_name: './GuiFiles/Lato-Bold.ttf'
+            background_color: 0.5, 0.8, 0.6, 1
+            pos_hint: {'top': 0.275, 'x': 0.355}
+            size_hint: 0.26, 0.135
+            on_press: root.submit_and_continue()
 
 <SecondScreen>:
     id: file_chooser
@@ -383,6 +424,26 @@ Builder.load_string("""
 class FirstScreen(Screen):
     pass
 
+class OptionScreen(Screen):
+    laneNum = str(LANENUM)
+    errDisplayed = False
+
+    def submit_and_continue(self):
+        """
+        (button click function)
+        enter the lane number and returns; reports when the type is not integer
+        """
+        self.laneNum = self.ids.lane_number_input.text
+        try:
+            LANENUM = int(self.laneNum)
+            if self.errDisplayed:
+                self.errDisplayed = False
+                self.ids.grumpy_label.text = ""  # resets text in case the user comes back to this page
+            sm.current = "_first_screen_"
+        except:
+           self.errDisplayed = True
+           self.ids.grumpy_label.text = '[color=ff3333]Invalid input! Please enter an integer.[/color]'
+        
 # the image selector screen
 class SecondScreen(Screen):
     def callback_and_format_image(self, new_image_address):
@@ -507,6 +568,7 @@ class SuccessScreen(Screen):
 # Create the screen manager
 sm = ScreenManager()
 sm.add_widget(FirstScreen(name='_first_screen_'))
+sm.add_widget(OptionScreen(name = '_option_screen_'))
 sm.add_widget(SecondScreen(name='_second_screen_'))
 sm.add_widget(ThirdScreen(name='_third_screen_'))
 sm.add_widget(FourthScreen(name='_fourth_screen_'))
