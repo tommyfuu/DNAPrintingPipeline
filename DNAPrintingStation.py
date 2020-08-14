@@ -34,6 +34,7 @@ GELSIMPREVIEW = "./byProducts/gelSimulation.png"
 PRIMERSAVEFILE = "./output/protocol.txt"
 
 def generateProtocol(image1):
+    print("LANENUM: " + str(LANENUM))
     """
     PrimerPairInfoList - takes in an image address and updates 
         the correct PCR protocol and the gel simulation image
@@ -107,6 +108,7 @@ def manualAdjustment(textAddress):
         and updates the protocol and produce the right simulation image
     input: textAddress, adjusted text file after manual adjustment
     """
+    print("LANENUM: " + str(LANENUM))
 
     primerPairInfoList = [""]*LANENUM
     numOfFalses = 0  
@@ -435,6 +437,7 @@ class OptionScreen(Screen):
         """
         self.laneNum = self.ids.lane_number_input.text
         try:
+            global LANENUM
             LANENUM = int(self.laneNum)
             if self.errDisplayed:
                 self.errDisplayed = False
