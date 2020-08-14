@@ -179,10 +179,8 @@ def manualAdjustment(textAddress):
 Builder.load_string("""
 <FirstScreen>:
     BoxLayout:
-        id: layout
         orientation: "horizontal"
         FloatLayout:
-            id: layout
             Label:
                 id: first_screen_label
                 text: "HMC DNA Printing Station"
@@ -203,16 +201,13 @@ Builder.load_string("""
                 source: "./GuiFiles/DNAPrinting.png"
 
         BoxLayout:
-            id: layout
             orientation: "vertical"
             Button:
-                id: hover_button
                 text: "Select your picture to print!"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 background_color: 0.5, 0.8, 0.6, 1
                 on_press: root.manager.current = '_second_screen_'
             Button:
-                id: hover_button
                 text: "Cancel!"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 on_press: app.stop()
@@ -232,8 +227,7 @@ Builder.load_string("""
             font_name: './GuiFiles/Lato-Italic.ttf'
             pos: 340, 470
         Button
-            id: hover_button
-            text: "select this image"
+            text: "Select This Image"
             font_name: './GuiFiles/Lato-Bold.ttf'
             background_color: 0.5, 0.8, 0.6, 1
             size: 300, 50
@@ -264,13 +258,11 @@ Builder.load_string("""
             padding: 10
             size_hint: (1, 0.15)
             Button:
-                id: hover_button
                 text: "Okay"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1)
                 on_press: root.select_image(root.img)
             Button:
-                id: hover_button
                 text: "Cancel"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1) 
@@ -304,13 +296,11 @@ Builder.load_string("""
             padding: 10
             size_hint: (1, 0.15)
             Button:
-                id: hover_button
                 text: "Happy with it? Print!"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1)
                 on_press: root.manager.current = '_success_screen_'  
             Button:
-                id: hover_button
                 text: "Manual Adjustment"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1) 
@@ -338,19 +328,16 @@ Builder.load_string("""
             padding: 10
             size_hint: (1, 0.15)
             Button:
-                id: hover_button
                 text: "Save and Preview"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1)
                 on_press: root.submit_text()
             Button:
-                id: hover_button
                 text: "Finished? Print!"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1)
                 on_press: root.manager.current = '_success_screen_'  
             Button:
-                id: hover_button
                 text: "Start over"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1) 
@@ -375,13 +362,11 @@ Builder.load_string("""
             padding: 10
             size_hint: (1, 0.15)
             Button:
-                id: hover_button
                 text: "Close"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1)
                 on_press: app.stop()
             Button:
-                id: hover_button
                 text: "Do it again!"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1) 
