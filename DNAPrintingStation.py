@@ -184,32 +184,36 @@ Builder.load_string("""
             Label:
                 id: first_screen_label
                 text: "HMC DNA Printing Station"
+                font_size: 35
                 font_name: './GuiFiles/Lato-Black.ttf'
-                pos_hint: {'top': 1.2}
+                pos_hint: {'top': 1.31}
             Label:
                 id: first_screen_label
                 text: "Designed by:"
                 font_name: './GuiFiles/Lato-Regular.ttf'
-                pos_hint: {'top': 0.8}
+                pos_hint: {'top': 0.875}
             Label:
                 id: first_screen_label
                 font_name: './GuiFiles/Lato-Regular.ttf'
                 text: "Tom Fu & Roya Amini-Naieni & Kariessa Schultz"
-                pos_hint: {'top': 0.75}
+                pos_hint: {'top': 0.825}
             Image:
-                pos_hint: {'top': 1}
+                pos_hint: {'top': 1.1}
                 source: "./GuiFiles/DNAPrinting.png"
 
-        BoxLayout:
-            orientation: "vertical"
             Button:
                 text: "Select your picture to print!"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 background_color: 0.5, 0.8, 0.6, 1
+                pos_hint: {'top': 0.23, 'x': 0.2}
+                size_hint: 0.26, 0.135
                 on_press: root.manager.current = '_second_screen_'
             Button:
                 text: "Cancel!"
                 font_name: './GuiFiles/Lato-Bold.ttf'
+                background_color: 0.5, 0.8, 0.6, 1
+                pos_hint: {'top': 0.23, 'x': 0.55}
+                size_hint: 0.26, 0.135
                 on_press: app.stop()
 
 <SecondScreen>:

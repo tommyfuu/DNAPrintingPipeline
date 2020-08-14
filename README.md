@@ -19,7 +19,7 @@ Install kivy with `python -m pip install kivy`. Adjust `python` into `python3` a
 
 To run this GUI, clone this repository and enter the directory.
 
-0. In the terminal, enter `python DNAPrintingStation.py`. A Kivy viewing panel should pop up. Note that our pipeline works for Mac and Linux with tested stable behaviours, but Kivy has failed before on Windows in our testing, as seen below. You might want to use Macbooks or a Linux computer if your Windows computer does not work. As before, adjust `python` into `python3` depending on your os. You should run our software using the same Python version that you used to install Kivy. 
+0. In the terminal, enter `python DNAPrintingStation.py`. A Kivy viewing panel should pop up. Note that our pipeline works for Mac and Linux with tested stable behaviours, but Kivy has failed before on Windows in our testing, as seen below. You might want to use Macbooks or a Linux computer if your Windows computer does not work. As before, adjust `python` into `python3` depending on your os. You should run our software using the same Python version that you used to install Kivy.
    ![fronPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/frontPage.png)
 1. In the pop up viewing panel, you should see the first screen that tells you that this is indeed our DNA printing Project software. Click on `Select your picture to print!` to enter the software.
 2. You will now see an image selector tab. Select the image you want to print on gel from your system. We provide a set of pictures in the `./testImages` directory. Note that we will recommend simpler pictures in terms of colour - the image would be printed the best if there are only two colours.
@@ -30,24 +30,22 @@ To run this GUI, clone this repository and enter the directory.
 6. If you are happy with the preview, click on `Happy with it? Print!` to get your protocol. Your output PCR protocol should be in the `./output` directory as a text file called `protocol.txt` which explains the primer pairs needed for each lane.
 7. If you are still not happy with the preview, feel free to go back to manual adjustment again to change anything!
 
-## Most recent update: August 12, 2020
+## Most recent update: August 13, 2020
 
 Implemented by Kariessa and Tom, we now fixed the following bugs/problems.
 
-1. General delay of display by one run-through.
-2. Failure to display changes in the preview image for the newly manually adjusted image.
-3. Failure to update the preview image across run-throughs.
-4. Organisation of files and most of the code redundancy.
-5. Text revision.
+1. Fix the skipping of image confirmation page
+2. Better font fix for manual adjustment page for good consistency
+3. Better and cleaner close button solution/hover over effect
+4. Font and general aesthetics
 
 ### Future optimisation
 
 - GUI:
 
-1. Fix the skipping of image confirmation page
-2. Better font fix for manual adjustment page for good consistency
-3. Better and cleaner close button solution
-4. Aesthetics
+1. Enable users to be able to input lane number and width
+2. Manual adjustment screen aesthetics
+3. Package the files into actual apps supported by Windows/MacOS/Linux
 
 - Theoretical parts of DNA Printing
 
