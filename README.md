@@ -52,7 +52,7 @@ We will pause the updates on this repository in short-term. We might continue to
 
 ### Acknowledgement
 
-This project is a collaborative effort of Tom Fu, Kariessa Schultz, and Roya Amini-Naini at the Harvey Mudd College BioMakerspace.
+This project is a collaborative effort of Tom Fu, Kariessa Schultz, Roya Amini-Naini, and Michelle Lee at the Harvey Mudd College BioMakerspace.
 
 This project is part of the intellectual property of the Harvey Mudd College BioMakerspace. Please notify the space at **tfu@g.hmc.edu** for consent before using any of the materials in this repository. Please cite us if you use our repository for academic sharing purposes.
 
