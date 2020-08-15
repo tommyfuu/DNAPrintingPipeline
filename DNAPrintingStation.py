@@ -513,10 +513,6 @@ class FourthScreen(Screen):
         imageToGelText.printImage(input_image, "./byProducts/gelSimulation.txt", LANENUM)  # print gel image into the text file
         generateProtocol(input_image)  # generate the right protocol.txt and gelSimulation.png
 
-        imageToGelText.printImage(input_image, "./byProducts/simulationForRescanning.txt", LANENUM)
-        txtToPng.rescanning()
-
-        imageToGel.printImage("./byProducts/simulationForRescanning.png")
         sm.current = "_fourth_screen_"
 
 # transition screen between selecting image and previewing the result

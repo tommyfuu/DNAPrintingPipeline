@@ -17,11 +17,6 @@ def simulation():
     image.show()
     image.save('./byProducts/gelSimulation.png')
 
-def rescanning():
-    image = text_image("./byProducts/simulationForRescanning.txt")
-    image.show()
-    image.save("./byProducts/simulationForRescanning.png")
-
 def text_image(text_path, font_path=None):
     """Convert text file to a grayscale image with black characters on a white background.
 
