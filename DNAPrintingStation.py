@@ -97,7 +97,14 @@ def generateProtocol(image1):
             print("\n", file = f)
             print(primerPairInfoList[x], file = f) 
             print("\n", file = f)
+
     f.close()
+
+    print("Contents of GelSimulation.txt:")
+
+    with open("./byProducts/gelSimulation.txt") as f:
+        print(f.read())
+
 
     # generate the new simulation picture to prep for previewing
     txtToPng.simulation() 
@@ -108,7 +115,6 @@ def manualAdjustment(textAddress):
         and updates the protocol and produce the right simulation image
     input: textAddress, adjusted text file after manual adjustment
     """
-    print("LANENUM: " + str(LANENUM))
 
     primerPairInfoList = [""]*LANENUM
     numOfFalses = 0  
@@ -504,10 +510,10 @@ class FourthScreen(Screen):
         called for manual adjustment, prep for manual adjustment by forming a text file that users
         can adjust
         """
-        imageToGelText.printImage(input_image)  # print gel image into the text file
+        imageToGelText.printImage(input_image, "./byProducts/gelSimulation.txt", LANENUM)  # print gel image into the text file
         generateProtocol(input_image)  # generate the right protocol.txt and gelSimulation.png
 
-        imageToGelText.imageForRescanning(input_image)
+        imageToGelText.printImage(input_image, "./byProducts/simulationForRescanning.txt", LANENUM)
         txtToPng.rescanning()
 
         imageToGel.printImage("./byProducts/simulationForRescanning.png")

@@ -41,14 +41,22 @@ def processBlock(img, _x, _boxWidth, _y, _boxHeight, _standard):
     #compare with standard
     return blockBrightness > _standard
 
-def printImage(image1):
+def printImage(image1, outputFile, laneNum = 20):
+    """Turns the image to a text file, depending on the 
+    size of the gel that will be printed on
+    Inputs: image1, an Image 
+            outputFile, a path to the file that the image will be saved to. 
+                        This file must already exist when the function is called
+            laneNum, an integer representing the number of lanes available
+                    Equal to 20 by default, but can be set by the user in the GUI
+    """
     #read image
     im = PIL.Image.open(image1)
 
     #initialise things
     numOfFalses = 0
-    total = 20*39
-    outputArray = [[False] * 20] * 39
+    total = laneNum*39
+    outputArray = [[False] * laneNum] * 39
 
     #initiate array to prepare storage, in output each block should be true or false
     ## true means inked; false means not inked
@@ -56,7 +64,7 @@ def printImage(image1):
     #Parametrisation
     imgwidth, imgheight = im.size
     boxHeight = imgheight//39
-    boxWidth = imgwidth//20
+    boxWidth = imgwidth//laneNum
 
     #find perceived brightnes as a standard
     ##later could be compared to and decide whether the designated block would be inked or not
@@ -66,7 +74,7 @@ def printImage(image1):
 
     # update numOfFalses
     for y in range(0, 39):
-        for x in range(0, 20):
+        for x in range(0, laneNum):
             outputArray[y][x] = processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
             if outputArray[y][x] == False:
                 numOfFalses += 1
@@ -75,14 +83,13 @@ def printImage(image1):
     print(numOfFalses)
     print(numOfTrues)
 
-    f = open("./byProducts/gelSimulation.txt", "a")
+    f = open(outputFile, "a")
     # removing contents of protocol.txt
     f.truncate(0)
     #for loop that produces the output array: each block should have its right true or false
-    #for i,j:
     if numOfTrues < numOfFalses:
         for y in range(0, 39):
-            for x in range(0, 20):
+            for x in range(0, laneNum):
                 outputArray[y][x] = processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
                 # print(outputArray[x][y])
                 if outputArray[y][x] == True:
@@ -92,74 +99,13 @@ def printImage(image1):
             print(file = f)
     else:
         for y in range(0, 39):
-            for x in range(0, 20):
+            for x in range(0, laneNum):
                 outputArray[y][x] = processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
                 # print(outputArray[x][y])
                 if outputArray[y][x] == False:
                     print("[X]", end = '', file = f)
                 else:
                     print("[ ]", end = '', file = f)
-            print(file = f)
-
-
-def imageForRescanning(image1):
-    #read image
-    im = PIL.Image.open(image1)
-
-    #initialise things
-    numOfFalses = 0
-    total = 20*39
-    outputArray = [[False] * 20] * 39
-
-    #initiate array to prepare storage, in output each block should be true or false
-    ## true means inked; false means not inked
-
-    #Parametrisation
-    imgwidth, imgheight = im.size
-    boxHeight = imgheight//39
-    boxWidth = imgwidth//20
-
-    #find perceived brightnes as a standard
-    ##later could be compared to and decide whether the designated block would be inked or not
-    standard = standardBrightness(im)
-    print("Standard")
-    print(standard)
-
-    # update numOfFalses
-    for y in range(0, 39):
-        for x in range(0, 20):
-            outputArray[y][x] = processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
-            if outputArray[y][x] == False:
-                numOfFalses += 1
-    
-    numOfTrues = total - numOfFalses
-    print(numOfFalses)
-    print(numOfTrues)
-
-    f = open("./byProducts/simulationForRescanning.txt", "a")
-    # removing contents of simulationForRescanning.txt
-    f.truncate(0)
-    #for loop that produces the output array: each block should have its right true or false
-    #for i,j:
-    if numOfTrues < numOfFalses:
-        for y in range(0, 39):
-            for x in range(0, 20):
-                outputArray[y][x] = processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
-                # print(outputArray[x][y])
-                if outputArray[y][x] == True:
-                    print("[X]", end = '', file = f)
-                else:
-                    print("   ", end = '', file = f)
-            print(file = f)
-    else:
-        for y in range(0, 39):
-            for x in range(0, 20):
-                outputArray[y][x] = processBlock(im, x , boxWidth, y, boxHeight, standard) #true or false
-                # print(outputArray[x][y])
-                if outputArray[y][x] == False:
-                    print("[X]", end = '', file = f)
-                else:
-                    print("   ", end = '', file = f)
             print(file = f)
 
 
