@@ -61,5 +61,5 @@ The funding support of the Harvey Mudd College BioMakerspace comes from Harvey M
 The image analysis part of thie pipeline is done with the generous help of [Bowen](https://github.com/JiangBowen0008). Some source files are from [Roya](https://github.com/ramininaieni) and [Max](https://github.com/maxschommer).
 
 Cheers,\
-Tom Fu on behalf of the Harvey Mudd College Biomakerspace
+Tom Fu on behalf of the Harvey Mudd College Biomakerspace\
 August 15, 2020
