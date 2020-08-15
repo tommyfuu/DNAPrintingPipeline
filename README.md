@@ -24,34 +24,31 @@ To run this GUI, clone this repository and enter the directory.
 1. In the pop up viewing panel, you should see the first screen that tells you that this is indeed our DNA printing Project software. Click on `Select your picture to print!` to enter the software.
 2. You will now see an image selector tab. Select the image you want to print on gel from your system. We provide a set of pictures in the `./testImages` directory. Note that we will recommend simpler pictures in terms of colour - the image would be printed the best if there are only two colours.
 3. Then you should see an image confirmation page asking you to confirm the image (currently skipped).
+   ![imageConfirmation]()
 4. You will now see a preview of what your picture would look like on gel, with `[ ]`s representing blank space not printed with DNAs and `[X]`s representing the space printed with DNAs, such as the one below.
    ![previewExample](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/previewExample.png)
 5. If you would like, click on manual adjustment to manually adjust the output gel image if you are not satisfied with the automatically generated image. Note that you should do this by deleting the blank spaces inside the brackets with `X`s, not directly typing in `X`s or deleting blank spaces. Then you should be able to preview again by clicking on the `Save adjustment-preview again` button.
 6. If you are happy with the preview, click on `Happy with it? Print!` to get your protocol. Your output PCR protocol should be in the `./output` directory as a text file called `protocol.txt` which explains the primer pairs needed for each lane.
 7. If you are still not happy with the preview, feel free to go back to manual adjustment again to change anything!
 
-## Most recent update: August 13, 2020
+### A note about settings in the GUI
 
-Implemented by Kariessa and Tom, we now fixed the following bugs/problems.
+Note that we have a setting tab on the first screen when you enter the GUI. That is where you can change the lane numbers according to the number of lanes on your actual gel or the gel box you are using. Note that since our system uses the primer pairs we designed - we have 39 pairs of primers for now that form linearly spaced DNA sequences, the vertical dimension can only be 39 for now. So when you choose the size of the gel box (i.e. the lane number), please make sure to choose an appropriate number so that the image does not look overly squished.
 
-1. Fix the skipping of image confirmation page
-2. Better font fix for manual adjustment page for good consistency
-3. Better and cleaner close button solution/hover over effect
-4. Font and general aesthetics
+## Most recent update: Minimum viable product finished (August 15, 2929)
+
+Implemented by Kariessa and Tom, the functionalities the GUI has include:
+
+1. Take in an input image
+2. Allow for manual adjustments on lane numbers
+3. Allow for user confirmation on image selection
+4. Allow for gel simulation to preview the printed gel
+5. Allow for manual adjustment on what the printed gel should look like
+6. Form protocol for PCR that allows DNA to be printed on gels in the shapes we want
 
 ### Future optimisation
 
-- GUI:
-
-1. Enable users to be able to input lane number and width
-2. Manual adjustment screen aesthetics
-3. Package the files into actual apps supported by Windows/MacOS/Linux
-
-- Theoretical parts of DNA Printing
-
-1. Lab corroboration of the pipeline
-2. Better image resolution
-3. More primer pair info to enable better regression
+We will pause the updates on this repository in short-term. We might continue to update this repo when we lay out the plans for future optimisation.
 
 ### Acknowledgement
 
@@ -65,3 +62,4 @@ The image analysis part of thie pipeline is done with the generous help of [Bowe
 
 Cheers,\
 Tom Fu on behalf of the Harvey Mudd College Biomakerspace
+August 15, 2020

@@ -239,7 +239,7 @@ Builder.load_string("""
             font_name: './GuiFiles/Lato-Black.ttf'
             pos_hint: {'top': 1.25}
         Label:
-            text: "Note: Your lane number should be an integer. Since the system has 40 pairs of primers prepared, your number of vertical pixels will be 40. Please choose the gel box accordingly."
+            text: "Note: Your lane number should be an integer. Since the system has 39 pairs of primers prepared, your number of vertical pixels will be 40. Please choose the gel box accordingly."
             text_size: self.size
             size_hint: 0.7, 1
             font_name: './GuiFiles/Lato-Italic.ttf'
