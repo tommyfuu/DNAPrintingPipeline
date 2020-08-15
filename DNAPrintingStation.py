@@ -357,7 +357,7 @@ Builder.load_string("""
                 text: "Manual Adjustment"
                 font_name: './GuiFiles/Lato-Bold.ttf'
                 size_hint: (0.5, 1) 
-                on_press: root.manager.current = '_adjustment_screen_'  
+                on_press: root.moveToAdjustment()
 
 <AdjustmentScreen>:
     adjustment_text: adjustment_text_box
@@ -514,6 +514,18 @@ class FourthScreen(Screen):
         generateProtocol(input_image)  # generate the right protocol.txt and gelSimulation.png
 
         sm.current = "_fourth_screen_"
+
+    def moveToAdjustment(self):
+        """
+        (button click function)
+        Moves to loading screen while the manual adjustment screen is updated, then moves to 
+        manual adjustment screen
+        """
+
+        sm.current = "_loading_screen_"
+        adjustment_screen = self.manager.get_screen("_adjustment_screen_")
+        adjustment_screen.ids.adjustment_text_box.text = adjustment_screen.gel_simulation_text()
+        sm.current = "_adjustment_screen_"
 
 # transition screen between selecting image and previewing the result
 class LoadingScreen(Screen):
