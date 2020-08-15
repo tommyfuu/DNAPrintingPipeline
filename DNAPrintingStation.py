@@ -273,11 +273,16 @@ Builder.load_string("""
             id: title
             text: "Image Selector"
             font_name: './GuiFiles/Lato-Black.ttf'
-            pos: 340, 500
+            pos: 340, 515
         Label:
             id: notice
             text: "Note that you should only select image files (e.g.: png/jpeg/etc.)"
             font_name: './GuiFiles/Lato-Italic.ttf'
+            pos: 340, 490
+        Label:
+            text: "[color=ff3333]Select an image that is less than 500 KB, otherwise it might take more than 1 minute for the program to process it.[/color]"
+            font_name: './GuiFiles/Lato-Italic.ttf'
+            markup: True
             pos: 340, 470
         Button
             text: "Select This Image"
