@@ -37,7 +37,7 @@ Note that we have a setting tab on the first screen when you enter the GUI. That
 
 ## Most recent update: Minimum viable product finished (August 15, 2929)
 
-Implemented by Kariessa and Tom, the functionalities the GUI has include:
+Implemented by Kariessa and Tom as well as experimental/conceptual support from Roya, the functionalities the GUI has include:
 
 1. Take in an input image
 2. Allow for manual adjustments on lane numbers
