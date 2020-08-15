@@ -14,7 +14,6 @@ https://stackoverflow.com/questions/29760402/converting-a-txt-file-to-an-image-i
 
 def simulation():
     image = text_image('./byProducts/gelSimulation.txt')
-    image.show()
     image.save('./byProducts/gelSimulation.png')
 
 def text_image(text_path, font_path=None):
