@@ -35,7 +35,7 @@ To run this GUI, clone this repository and enter the directory.
 
 Note that we have a setting tab on the first screen when you enter the GUI. That is where you can change the lane numbers according to the number of lanes on your actual gel or the gel box you are using. Note that since our system uses the primer pairs we designed - we have 39 pairs of primers for now that form linearly spaced DNA sequences, the vertical dimension can only be 39 for now. So when you choose the size of the gel box (i.e. the lane number), please make sure to choose an appropriate number so that the image does not look overly squished.
 
-## Most recent update: Minimum viable product finished (August 15, 2929)
+## Most recent update: Minimum viable product finished (August 15, 2020)
 
 Implemented by Kariessa and Tom as well as experimental/conceptual support from Roya, the functionalities the GUI has include:
 
