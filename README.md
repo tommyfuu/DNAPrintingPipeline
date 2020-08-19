@@ -36,9 +36,9 @@ To run this GUI, clone this repository and enter the directory.
 
 ### A note about settings in the GUI
 
-Note that we have a setting tab on the first screen when you enter the GUI. You can enter the tab by clicking on the settings button in the front page of the software.
-![fronPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/frontPage.png)
-That is where you can change the lane numbers according to the number of lanes on your actual gel or the gel box you are using. Note that since our system uses the primer pairs we designed - we have 39 pairs of primers for now that form linearly spaced DNA sequences, the vertical dimension can only be 39 for now. So when you choose the size of the gel box (i.e. the lane number), please make sure to choose an appropriate number so that the image does not look overly squished. Lane number is set to 20 by default.
+Note that we have a setting tab on the first screen when you enter the GUI. You can enter the tab by clicking on the settings button in the front page of the software.\
+![fronPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/frontPage.png)\
+That is where you can change the lane numbers according to the number of lanes on your actual gel or the gel box you are using. Note that since our system uses the primer pairs we designed - we have 39 pairs of primers for now that form linearly spaced DNA sequences, the vertical dimension can only be 39 for now. So when you choose the size of the gel box (i.e. the lane number), please make sure to choose an appropriate number so that the image does not look overly squished. Lane number is set to 20 by default.\
 ![settingsPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/settingsPage.png)
 
 ## Most recent update: Minimum viable product finished (August 18, 2020)
