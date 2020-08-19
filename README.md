@@ -23,19 +23,25 @@ To run this GUI, clone this repository and enter the directory.
    ![fronPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/frontPage.png)
 1. In the pop up viewing panel, you should see the first screen that tells you that this is indeed our DNA printing Project software. Click on `Select your picture to print!` to enter the software.
 2. You will now see an image selector tab. Select the image you want to print on gel from your system. We provide a set of pictures in the `./testImages` directory. Note that we will recommend simpler pictures in terms of colour - the image would be printed the best if there are only two colours.
+   ![imageSelectorPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/imageSelectorPage.png)
 3. Then you should see an image confirmation page asking you to confirm the image (currently skipped).
    ![imageConfirmation](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/imageConfirmation.png)
 4. You will now see a preview of what your picture would look like on gel, with `[ ]`s representing blank space not printed with DNAs and `[X]`s representing the space printed with DNAs, such as the one below.
    ![previewExample](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/previewExample.png)
 5. If you would like, click on manual adjustment to manually adjust the output gel image if you are not satisfied with the automatically generated image. Note that you should do this by deleting the blank spaces inside the brackets with `X`s, not directly typing in `X`s or deleting blank spaces. Then you should be able to preview again by clicking on the `Save adjustment-preview again` button.
+   ![manualAdjustmentPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/manualAdjustmentPage.png)
 6. If you are happy with the preview, click on `Happy with it? Print!` to get your protocol. Your output PCR protocol should be in the `./output` directory as a text file called `protocol.txt` which explains the primer pairs needed for each lane.
+   ![successPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/successPage.png)
 7. If you are still not happy with the preview, feel free to go back to manual adjustment again to change anything!
 
 ### A note about settings in the GUI
 
-Note that we have a setting tab on the first screen when you enter the GUI. That is where you can change the lane numbers according to the number of lanes on your actual gel or the gel box you are using. Note that since our system uses the primer pairs we designed - we have 39 pairs of primers for now that form linearly spaced DNA sequences, the vertical dimension can only be 39 for now. So when you choose the size of the gel box (i.e. the lane number), please make sure to choose an appropriate number so that the image does not look overly squished.
+Note that we have a setting tab on the first screen when you enter the GUI. You can enter the tab by clicking on the settings button in the front page of the software.
+![fronPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/frontPage.png)
+That is where you can change the lane numbers according to the number of lanes on your actual gel or the gel box you are using. Note that since our system uses the primer pairs we designed - we have 39 pairs of primers for now that form linearly spaced DNA sequences, the vertical dimension can only be 39 for now. So when you choose the size of the gel box (i.e. the lane number), please make sure to choose an appropriate number so that the image does not look overly squished. Lane number is set to 20 by default.
+![settingsPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/settingsPage.png)
 
-## Most recent update: Minimum viable product finished (August 15, 2020)
+## Most recent update: Minimum viable product finished (August 18, 2020)
 
 Implemented by Kariessa and Tom as well as experimental/conceptual support from Roya, the functionalities the GUI has include:
 
@@ -52,7 +58,7 @@ We will pause the updates on this repository in short-term. We might continue to
 
 ### Acknowledgement
 
-This project is a collaborative effort of Tom Fu, Kariessa Schultz, Roya Amini-Naini, and Michelle Lee at the Harvey Mudd College BioMakerspace.
+This project is a collaborative effort of Tom Fu, Kariessa Schultz, Roya Amini-Naini, and Michelle Lee at the Harvey Mudd College BioMakerspace. The Harvey Mudd faculty advisor for this project is Dr. Dan Stoebel.
 
 This project is part of the intellectual property of the Harvey Mudd College BioMakerspace. Please notify the space at **tfu@g.hmc.edu** for consent before using any of the materials in this repository. Please cite us if you use our repository for academic sharing purposes.
 
@@ -62,4 +68,4 @@ The image analysis part of thie pipeline is done with the generous help of [Bowe
 
 Cheers,\
 Tom Fu on behalf of the Harvey Mudd College Biomakerspace\
-August 15, 2020
+August 18, 2020
