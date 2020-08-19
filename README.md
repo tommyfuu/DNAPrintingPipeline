@@ -11,7 +11,7 @@ This computational pipeline is implemented into a user-friendly platform that gi
 This project uses the following python library:  
 Panda, PIL, numpy, math, os(operating system control)
 
-To make sure you have the right libraries downloaded, in your terminal, cd to enter the current directory (DNAPrintingPipeline), type `pip3 install -r requirements.txt`. Note that math and os should be built in python dictionaries without the need of installing.
+To make sure you have the right libraries downloaded, in your terminal, cd to enter the current directory (DNAPrintingPipeline), type `pip3 install -r requirements.txt`. If your terminal says that you don't have `pip3` installed, try using `pip` instead. Note that math and os should be built in python dictionaries without the need of installing.
 
 Install kivy with `python -m pip install kivy`. Adjust `python` into `python3` according to your os.
 
