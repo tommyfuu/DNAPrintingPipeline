@@ -21,7 +21,7 @@ To run this GUI, clone this repository and enter the directory.
 
 0. In the terminal, enter `python DNAPrintingStation.py`. A Kivy viewing panel should pop up. Note that our pipeline works for Mac and Linux with tested stable behaviours, but Kivy has failed before on Windows in our testing, as seen below. You might want to use Macbooks or a Linux computer if your Windows computer does not work. As before, adjust `python` into `python3` depending on your os. You should run our software using the same Python version that you used to install Kivy.
    ![fronPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/frontPage.png)
-1. In the pop up viewing panel, you should see the first screen that tells you that this is indeed our DNA printing Project software. Click on `Select your picture to print!` to enter the software.
+1. In the pop up viewing panel, you should see the first screen that tells you that this is indeed our DNA printing Project software. Click on `Select an image` to enter the software.
 2. You will now see an image selector tab. Select the image you want to print on gel from your system. We provide a set of pictures in the `./testImages` directory. Note that we will recommend simpler pictures in terms of colour - the image would be printed the best if there are only two colours.
    ![imageSelectorPage](https://github.com/tommyfuu/DNAPrintingPipeline/blob/master/byProducts/imageSelectorPage.png)
 3. Then you should see an image confirmation page asking you to confirm the image (currently skipped).
