@@ -54,7 +54,13 @@ Implemented by Kariessa and Tom as well as experimental/conceptual support from 
 
 ### Future optimisation
 
-We will pause the updates on this repository in short-term. We might continue to update this repo when we lay out the plans for future optimisation.
+Roya is conducting wet-lab experiments to corroborate the effectiveness of our software.
+
+In addition, thoughts on future optimisation include:
+
+1. Print with more than 2 colors
+2. Increase the image dimension from 2D to 3D
+3. Use the OpenTron robot to automise the pipeline.
 
 ### Acknowledgement
 
