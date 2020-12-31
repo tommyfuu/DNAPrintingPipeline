@@ -4,6 +4,9 @@ This is a simple software designed so that you can print an image on gel with DN
 
 This computational pipeline is implemented into a user-friendly platform that gives you a PCR protocol to generate the DNA fragments you need for each lane in gel electrophoresis to produce the image on gel.
 
+Repository Developers: Tom Fu, Kariessa Schultz
+Wet Lab Members: Roya Amini-Naeini, Michelle Lee
+
 ## Running the pipeline
 
 ### step 1. make sure you have the right libraries downloaded
